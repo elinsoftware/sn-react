@@ -1,0 +1,86 @@
+body {
+    background: rgb(245, 248, 250);
+    font-family: -system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+    display:flex;
+    height:100vh;
+    flex-direction:column;
+}
+.heading {
+    display: flex;
+}
+.heading-title {
+    font-weight:400;
+    font-size:26px;
+}
+.text-block {
+    margin:16px 0 0 10px;
+    width:530px;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(16,22,26,.15),0 0 0 rgba(16,22,26,0),0 0 0 rgba(16,22,26,0);
+    background-color: #fff;
+    padding: 12px 20px 12px 20px;  
+    transition: -webkit-transform .2s cubic-bezier(.4,1,.75,.9),-webkit-box-shadow .2s cubic-bezier(.4,1,.75,.9);
+    transition: transform .2s cubic-bezier(.4,1,.75,.9),box-shadow .2s cubic-bezier(.4,1,.75,.9);
+    transition: transform .2s cubic-bezier(.4,1,.75,.9),box-shadow .2s cubic-bezier(.4,1,.75,.9),-webkit-transform .2s cubic-bezier(.4,1,.75,.9),-webkit-box-shadow .2s cubic-bezier(.4,1,.75,.9);
+}
+.footer {
+  height: 40px;
+  display:flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
+  color: rgba(92,112,128,0.58);
+  font-size: 12px;
+}
+.footer img {
+  width:20px;
+  margin-left:6px;
+}
+.app-container {
+  min-height: calc(100vh - 50px);
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items:center;
+}
+.app-logo {
+    height: 36px;
+    pointer-events: none;
+  }
+  
+.app-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: app-logo-spin infinite 10s linear;
+    }
+  }
+  
+  @keyframes app-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  code {
+    text-transform: none;
+    font-family: monospace;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 0 1px rgba(16,22,26,.2);
+    box-shadow: inset 0 0 0 1px rgba(16,22,26,.2);
+    background: hsla(0,0%,100%,.7);
+    padding: 2px 5px;
+    color: #5c7080;
+    font-size: 14px;
+  }
