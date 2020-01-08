@@ -43,10 +43,7 @@ To create a production build for deployment inside a ServiceNow scoped applicati
 
 > **Note** Instead of '.' (dots) in file names, all chunks and assets use '-' (dash), so build files don't have typical extensions.
 
-The **JS bundle** consists of two chunks:
-
-- **main** with your application source code, images (png, jpg, gif) and fonts below the size limit (10kB by default) and all CSS files.
-- **vendor** with `node_modules` code
+Apart from your application source code, the  **JS bundle** includes , images (png, jpg, gif) and fonts below the size limit (10kB by default) and all CSS styles.
 
 Files larger than the size limit and other file types are saved as separate files under the assets directory.
 
