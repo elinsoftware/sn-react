@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
-<html>
-<div style="display:none">
-	<g:evaluate>
-		var docType = '&lt;!DOCTYPE HTML&gt;';
-	</g:evaluate>
-	<g2:no_escape>
-		$[docType]
-  </g2:no_escape>
-</div>
-  <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>React app</title>
-    <!-- handle security token for API requests -->
-	  <div style="display:none">
-      <g:evaluate object="true">var session = gs.getSession(); var token = session.getSessionToken(); if (token=='' ||
-        token==undefined) token = gs.getSessionToken();</g:evaluate>
+<j:jelly
+  trim="false"
+  xmlns:j="jelly:core"
+  xmlns:g="glide"
+  xmlns:j2="null"
+  xmlns:g2="null"
+>
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>React app</title>
+      <!-- handle security token for API requests -->
+      <div style="display:none">
+        <g:evaluate object="true">
+          var session = gs.getSession(); var token = session.getSessionToken();
+          if (token=='' || token==undefined) token = gs.getSessionToken();
+        </g:evaluate>
       </div>
       <script>
-      window.servicenowUserToken = "$[token]"
+        window.servicenowUserToken = "$[token]"
       </script>
-  <!-- handle security token for API requests -->
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+      <!-- handle security token for API requests -->
+    </head>
+    <body>
+      <div id="root"></div>
+    </body>
   </html>
 </j:jelly>
