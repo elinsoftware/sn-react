@@ -22,7 +22,6 @@ To run a local development server you need to update ServiceNow configuration in
 
 #### Configuration Settings Overview
 
----
 
 ```js
 const servicenowConfig = {
@@ -31,39 +30,46 @@ const servicenowConfig = {
    * should not be changed
    */
   REST_API_PATH: '/api',
+  
   /**
    * ServiceNow instance URL for REST calls
    * it is being used in DEVELOPMENT mode only
    * This should be the instance where React application will be deployed to
    */
   SERVICENOW_INSTANCE: 'https://<instance-name>.service-now.com',
+  
   /**
-   * Username for API requests
+   * ServiceNow username for API requests
    * it is being used for sending REST calls in DEVELOPMENT mode only
    * no need to provide credentials for PRODUCTION
    */
   REACT_APP_USER: '<username>',
+  
   /**
-   * User password, for DEVELOPMENT mode only
+   * ServiceNow user password, for DEVELOPMENT mode only
    */
   REACT_APP_PASSWORD: '<password>',
+  
   /**
    * ServiceNow path to GET resource which serves javascript files
    * Current configuration does not produce CSS files
    * CSS code will be embedded into javascript files
    */
-  JS_API_PATH: 'api/<scoped_app_name>/container/js/',
+  JS_API_PATH: 'api/<scoped_app_name>/<api_resource_path>/js/',
+  
   /**
    * ServiceNow path to GET resource which serves
    * Image files (png, jpg, gif)
    * SVG files will be embedded into javascript files
    */
-  IMG_API_PATH: 'api/<scoped_app_name>/container/img/',
+  IMG_API_PATH: 'api/<scoped_app_name>/<api_resource_path>/img/',
+  
   /**
    * ServiceNow path to GET resource which serves
    * other files, like fonts etc.
    */
-  ASSETS_API_PATH: 'api/<scoped_app_name>/container/assets/',
+  ASSETS_API_PATH: 'api/<scoped_app_name>/<api_resource_path>/assets/',
+  
   /**
    * fonts and images below this size (in bytes) will be put inside
    * JS chunks, instead of being saved as separate files
@@ -74,7 +80,6 @@ const servicenowConfig = {
 module.exports = servicenowConfig
 ```
 
----
 
 ## 2. Development
 
