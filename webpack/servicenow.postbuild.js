@@ -19,8 +19,7 @@ function injectJellyWrappers(inputHTML) {
     xmlns:g="glide"
     xmlns:j2="null"
     xmlns:g2="null"
-  >
-  `
+  >`
 
   const JELLY_WRAPPER_END = `</j:jelly>`
 
@@ -32,8 +31,7 @@ function injectJellyWrappers(inputHTML) {
  * before the end of the head tag.
  */
 function injectAuthLogic(inputHTML) {
-  const AUTH_LOGIC_CODE = `
-  <!-- handle security token for API requests -->
+  const AUTH_LOGIC_CODE = `<!-- handle security token for API requests -->
   <div style="display:none">
     <g:evaluate object="true">
       var session = gs.getSession(); var token = session.getSessionToken(); if
@@ -81,11 +79,16 @@ function removeDocType(inputHTML) {
   return inputHTML.replace('<!DOCTYPE html>', '')
 }
 
+function removeDoubleNewlines(inputHTML) {
+  return inputHTML.replace(/\s{2,}/gm, '\n')
+}
+
 function decorateIndexHTML(pathToHTML) {
   const indexHTMLContent = fs.readFileSync(pathToHTML, 'utf-8')
   let decoratedHTML = indexHTMLContent
   decoratedHTML = removeDocType(decoratedHTML)
   decoratedHTML = removeHtmlTags(decoratedHTML)
+  decoratedHTML = removeDoubleNewlines(decoratedHTML)
   decoratedHTML = injectJellyWrappers(decoratedHTML)
   decoratedHTML = injectJellyDoctype(decoratedHTML)
   decoratedHTML = injectAuthLogic(decoratedHTML)
