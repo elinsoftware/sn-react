@@ -8,7 +8,7 @@ const cfg = {
   entry: baseCfg.entry,
   output: baseCfg.output,
   resolve: baseCfg.resolve,
-
+  stats: 'errors-only',
   mode: "production",
 
   optimization: {
