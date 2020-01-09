@@ -7,7 +7,7 @@ const servicenowConfig = {
   /**
    * ServiceNow instance URL for REST calls
    * it is being used in DEVELOPMENT mode only
-   * This should be the instnace where React application will be deployed to
+   * This should be the instance where React application will be deployed to
    */
   SERVICENOW_INSTANCE: 'https://elinsoftwaredemo01.service-now.com',
   /**
