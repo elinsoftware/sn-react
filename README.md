@@ -54,7 +54,7 @@ ServiceNow user password, for Development mode only
 
 ---
 
-**`JS_API_PATH`** - `'api/<scoped_app_name>/<api_resource_path>/js/'`
+**`JS_API_PATH`** - `'api/<scoped_app_name>/container/js/'`
 
 ServiceNow path to the GET resource which serves JavaScript files
 
@@ -63,7 +63,7 @@ ServiceNow path to the GET resource which serves JavaScript files
 
 ---
 
-**`IMG_API_PATH`** - `'api/<scoped_app_name>/<api_resource_path>/img/'`
+**`IMG_API_PATH`** - `'api/<scoped_app_name>/container/img/'`
 
 ServiceNow path to the GET resource which serves Image files (png, jpg, gif)
 
@@ -71,7 +71,7 @@ ServiceNow path to the GET resource which serves Image files (png, jpg, gif)
 
 ---
 
-**`ASSETS_API_PATH`** - `'api/<scoped_app_name>/<api_resource_path>/assets/'`
+**`ASSETS_API_PATH`** - `'api/<scoped_app_name>/container/other_assets/'`
 
 ServiceNow path to the GET resource which serves other files like fonts etc.
 
