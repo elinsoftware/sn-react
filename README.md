@@ -25,11 +25,13 @@ To run a local development server you need to update ServiceNow configuration in
 These are the available configuration settings.
 
 **`REST_API_PATH`** - `'/api'`
+
 This is a default prefix for all ServiceNow APIs and should not be changed.
 
 ---
 
 **`SERVICENOW_INSTANCE`** - `'https://<instance-name>.service-now.com'`
+
 ServiceNow instance URL for REST calls
 
 - it is being used in Development mode only
@@ -38,6 +40,7 @@ ServiceNow instance URL for REST calls
 ---
 
 **`REACT_APP_USER`** - `'<username>'`
+
 ServiceNow username for API requests
 
 - it is being used for sending REST calls in Development mode only
@@ -46,11 +49,13 @@ ServiceNow username for API requests
 ---
 
 **`REACT_APP_PASSWORD`** - `'<password>'`
+
 ServiceNow user password, for Development mode only
 
 ---
 
 **`JS_API_PATH`** - `'api/<scoped_app_name>/<api_resource_path>/js/'`
+
 ServiceNow path to the GET resource which serves JavaScript files
 
 - Current configuration does not produce CSS files
@@ -59,6 +64,7 @@ ServiceNow path to the GET resource which serves JavaScript files
 ---
 
 **`IMG_API_PATH`** - `'api/<scoped_app_name>/<api_resource_path>/img/'`
+
 ServiceNow path to the GET resource which serves Image files (png, jpg, gif)
 
 - SVG files will be embedded into JavaScript files
@@ -66,11 +72,13 @@ ServiceNow path to the GET resource which serves Image files (png, jpg, gif)
 ---
 
 **`ASSETS_API_PATH`** - `'api/<scoped_app_name>/<api_resource_path>/assets/'`
+
 ServiceNow path to the GET resource which serves other files like fonts etc.
 
 ---
 
 **`ASSET_SIZE_LIMIT`** - `10000`
+
 Fonts and images below this size (in bytes) will be put inside JS chunks, instead of being saved as separate files.
 
 ## 2. Development
