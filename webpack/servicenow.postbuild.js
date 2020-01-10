@@ -96,15 +96,13 @@ function decorateIndexHTML(pathToHTML) {
   fs.writeFileSync(pathToHTML, decoratedHTML)
 }
 
+function bytesNumToKbsStr(bytesNum) {
+  return Math.round(bytesNum / 1000) + 'kB'
+}
+
 function outputResults() {
   clear()
 
-  console.log('\n')
-  console.log(
-    chalk.green(
-      'Your app production build is ready for deployment in ServiceNow.'
-    )
-  )
   console.log('\n')
   console.log(
     'Find the production build in the ' + chalk.yellow('dist/') + ' directory.'
@@ -112,16 +110,37 @@ function outputResults() {
   console.log('\n')
 
   try {
-    const tree = dirTree('./dist/api')
-    const containerDir = tree.children[0].children[0].children
+    const tree = dirTree('./dist')
+
+    const indexHtml = tree.children.find(child => child.name === 'index.html')
+    const roundedSizeKbs = bytesNumToKbsStr(indexHtml.size)
+    console.log(chalk.bold(indexHtml.path.replace('/index.html', '')))
+    console.log('├── ' + indexHtml.name + ', ' + roundedSizeKbs)
+    console.log('\n')
+
+    const apiDir = tree.children.find(child => child.name === 'api')
+    const containerDir = apiDir.children[0].children[0].children
     containerDir.forEach(directory => {
-      console.log(chalk.bold(directory.name))
+      console.log(chalk.bold(directory.path))
       directory.children.forEach(file => {
-        const roundedSizeKbs = Math.round(file.size / 1000) + 'kB'
+        const roundedSizeKbs = bytesNumToKbsStr(file.size)
         console.log('├── ' + file.name + ', ' + roundedSizeKbs)
       })
       console.log('\n')
     })
+
+    const totalSize = bytesNumToKbsStr(tree.size)
+
+    console.log(chalk.yellow('Total bundle size: ' + totalSize))
+    console.log('See the build files above.')
+    console.log('\n')
+
+    console.log(
+      chalk.green(
+        'Your app production build is ready for deployment in ServiceNow.'
+      )
+    )
+    console.log('\n')
   } catch (err) {
     console.log(err.message)
     console.log(
