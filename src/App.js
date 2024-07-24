@@ -1,6 +1,8 @@
 import React from "react";
 import { hot } from "react-hot-loader/root";
-import { Header } from "./components/Header";
+import { Header } from "./components/Header.js";
+import { Cards } from "./components/Cards.js";
+import { Footer } from "./components/Footer.js";
 import "./App.css";
 
 function App() {
@@ -8,7 +10,8 @@ function App() {
     <>
       <div className="app-container">
         <Header />
-        <h3>hi</h3>
+        <Cards />
+        <Footer />
       </div>
     </>
   );
