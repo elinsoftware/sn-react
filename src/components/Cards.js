@@ -5,7 +5,7 @@ import { NewCard } from "./NewCard";
 export const Cards = ({
   deleteNetworkSecurityZoneInfo,
   networkSecurityZonesList,
-  newNetworkSecurityInfo,
+  newNetworkSecurityList,
   addNewNetworkSecurityZones,
   cancelNewNetworkSecurityInfo,
 }) => {
@@ -23,8 +23,8 @@ export const Cards = ({
         })}
       </ul>
       <ul>
-        {newNetworkSecurityInfo.length
-          ? newNetworkSecurityInfo.map((newZoneObj) => {
+        {newNetworkSecurityList.length
+          ? newNetworkSecurityList.map((newZoneObj) => {
               return (
                 <NewCard
                   key={newZoneObj.id}

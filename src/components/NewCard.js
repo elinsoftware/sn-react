@@ -22,7 +22,9 @@ export const NewCard = ({
         />
       </div>
 
-      <button onClick={addNewNetworkSecurityZones}>Save</button>
+      <button onClick={() => addNewNetworkSecurityZones(newZoneObj.id)}>
+        Save
+      </button>
       <button onClick={cancelNewNetworkSecurityInfo}>Cancel</button>
     </>
   );

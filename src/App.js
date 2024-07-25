@@ -8,7 +8,7 @@ import { useState } from "react";
 import _ from "lodash";
 
 function App() {
-  const [newNetworkSecurityInfo, setNewNetworkSecurityInfo] = useState([]);
+  const [newNetworkSecurityList, setNewNetworkSecurityList] = useState([]);
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
     {
       id: "d529034247270210b27f57f1d16d43b0",
@@ -33,30 +33,43 @@ function App() {
     );
   }
 
-  function createNetworkSecurityZones(e) {
-    setNewNetworkSecurityInfo([
-      ...newNetworkSecurityInfo,
+  function createNetworkSecurityZones() {
+    setNewNetworkSecurityList([
+      ...newNetworkSecurityList,
       {
-        id: "",
+        id: crypto.randomUUID(),
         name: "",
         ip_pool: "",
       },
     ]);
   }
 
-  function addNewNetworkSecurityZones() {
-    console.log("adding new zones to existing list");
+  function addNewNetworkSecurityZones(id) {
+    console.log("adding new zones to existing list", id);
+    let networkSecurityMatch;
+    setNewNetworkSecurityList(
+      newNetworkSecurityList.filter((networkZoneObj) => {
+        if (networkZoneObj.id === id) networkSecurityMatch = networkZoneObj;
+        return networkZoneObj.id !== id;
+      })
+    );
+    // Additional logic about if this obj can be submitted if ip pool
+    // and name are empty
+    setNetworkSecurityZonesList([
+      ...networkSecurityZonesList,
+      networkSecurityMatch,
+    ]);
   }
 
   function cancelNewNetworkSecurityInfo() {
     console.log("cancelled adding new info");
-    const listCopy = _.cloneDeep(newNetworkSecurityInfo);
+    const listCopy = _.cloneDeep(newNetworkSecurityList);
     listCopy.pop();
-    setNewNetworkSecurityInfo(listCopy);
+    setNewNetworkSecurityList(listCopy);
   }
 
   function submitNetworkSecurityZoneInfo() {
-    if (newNetworkSecurityInfo.length) {
+    if (newNetworkSecurityList.length) {
       console.log("there are unsaved security zones");
       return;
     }
@@ -72,8 +85,7 @@ function App() {
         <Cards
           deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
           networkSecurityZonesList={networkSecurityZonesList}
-          newNetworkSecurityInfo={newNetworkSecurityInfo}
-          setNewNetworkSecurityInfo={setNewNetworkSecurityInfo}
+          newNetworkSecurityList={newNetworkSecurityList}
           cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
           addNewNetworkSecurityZones={addNewNetworkSecurityZones}
         />
