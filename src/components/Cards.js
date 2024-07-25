@@ -10,10 +10,6 @@ export const Cards = ({
   newNetworkSecurityList,
   addNewNetworkSecurityZones,
   cancelNewNetworkSecurityInfo,
-  newZoneName,
-  newIPPool,
-  setNewZoneName,
-  setNewIPPool,
 }) => {
   return (
     <>
@@ -39,10 +35,6 @@ export const Cards = ({
                     newZoneObj={newZoneObj}
                     cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
                     addNewNetworkSecurityZones={addNewNetworkSecurityZones}
-                    newZoneName={newZoneName}
-                    newIPPool={newIPPool}
-                    setNewZoneName={setNewZoneName}
-                    setNewIPPool={setNewIPPool}
                   />
                 );
               })

@@ -1,45 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Grid, Checkbox, TextField } from "@material-ui/core";
 
 export const NewCard = ({
   newZoneObj,
   cancelNewNetworkSecurityInfo,
   addNewNetworkSecurityZones,
-  newZoneName,
-  newIPPool,
-  setNewZoneName,
-  setNewIPPool,
 }) => {
+  const [newZoneName, setNewZoneName] = useState("");
+  const [newIPPool, setNewIPPool] = useState("");
   return (
     <>
       <Grid
+        className="existing-card-container"
         container
         direction="row"
         justifyContent="center"
         alignItems="center"
       >
         <Checkbox color="primary" id={newZoneObj.id} />
-        <TextField
-          onChange={(e) => setNewZoneName(e.target.value)}
-          size="small"
-          disabled
-          id={newZoneObj.id}
-          label="Zone Name"
-          defaultValue={newZoneName}
-          variant="filled"
-        />
+        <div className="existing-card-text-container">
+          <TextField
+            className="existing-card-text-field"
+            onChange={(e) => setNewZoneName(e.target.value)}
+            size="small"
+            id={newZoneObj.id}
+            label="Zone Name"
+            defaultValue={newZoneName}
+            variant="outlined"
+          />
 
-        <TextField
-          size="small"
-          disabled
-          id={`ip-pool-${newZoneObj.id}`}
-          label="IP Pool"
-          defaultValue={newIPPool}
-          variant="filled"
-        />
+          <TextField
+            className="existing-card-text-field"
+            onChange={(e) => setNewIPPool(e.target.value)}
+            size="small"
+            id={`ip-pool-${newZoneObj.id}`}
+            label="IP Pool"
+            defaultValue={newIPPool}
+            variant="outlined"
+          />
+        </div>
 
         <Button
-          onClick={() => addNewNetworkSecurityZones(newZoneObj.id)}
+          onClick={() =>
+            addNewNetworkSecurityZones(newZoneObj.id, newZoneName, newIPPool)
+          }
           variant="contained"
           size="small"
           color="primary"

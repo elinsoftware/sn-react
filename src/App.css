@@ -85,6 +85,17 @@ body {
     font-size: 14px;
   }
 
-  #primary-modal-btns {
-    
+  .existing-card-container {
+    margin: 14px;
+  }
+  #existing-card-button {
+  }
+
+  .existing-card-text-container {
+    padding-right: 12px;
+  }
+
+  .existing-card-text-field {
+    padding-right: 12px !important;
+    width: 300px
   }

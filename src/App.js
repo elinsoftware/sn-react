@@ -8,8 +8,6 @@ import { useState } from "react";
 import _ from "lodash";
 
 function App() {
-  const [newZoneName, setNewZoneName] = useState("");
-  const [newIPPool, setNewIPPool] = useState("");
   const [newNetworkSecurityList, setNewNetworkSecurityList] = useState([]);
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
     {
@@ -53,8 +51,9 @@ function App() {
     ]);
   }
 
-  function addNewNetworkSecurityZones(id) {
-    console.log("adding new zones to existing list", id);
+  function addNewNetworkSecurityZones(id, zoneName, ipPool) {
+    // console.log("adding new zones to existing list", id, zoneName, ipPool);
+    // every time you hit add, it removes it from "new list" and takes it to "existing list"
     let networkSecurityMatch;
     setNewNetworkSecurityList(
       newNetworkSecurityList.filter((networkZoneObj) => {
@@ -62,6 +61,8 @@ function App() {
         return networkZoneObj.id !== id;
       })
     );
+    networkSecurityMatch.name = zoneName;
+    networkSecurityMatch.ip_pool = ipPool;
     // Additional logic about if this obj can be submitted if ip pool
     // and name are empty
     setNetworkSecurityZonesList([
@@ -71,7 +72,7 @@ function App() {
   }
 
   function cancelNewNetworkSecurityInfo() {
-    console.log("cancelled adding new info");
+    // console.log("cancelled adding new info");
     const listCopy = _.cloneDeep(newNetworkSecurityList);
     listCopy.pop();
     setNewNetworkSecurityList(listCopy);
@@ -98,10 +99,6 @@ function App() {
           newNetworkSecurityList={newNetworkSecurityList}
           cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
           addNewNetworkSecurityZones={addNewNetworkSecurityZones}
-          newZoneName={newZoneName}
-          newIPPool={newIPPool}
-          setNewZoneName={setNewZoneName}
-          setNewIPPool={setNewIPPool}
         />
         <Footer
           createNetworkSecurityZones={createNetworkSecurityZones}
