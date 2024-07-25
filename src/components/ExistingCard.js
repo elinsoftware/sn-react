@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Card = ({ zoneObj, deleteZoneInfo }) => {
+export const ExistingCard = ({ zoneObj, deleteNetworkSecurityZoneInfo }) => {
   return (
     <>
       <div>
@@ -19,7 +19,9 @@ export const Card = ({ zoneObj, deleteZoneInfo }) => {
       </div>
 
       <button>Edit</button>
-      <button onClick={() => deleteZoneInfo(zoneObj.id)}>Delete</button>
+      <button onClick={() => deleteNetworkSecurityZoneInfo(zoneObj.id)}>
+        Remove
+      </button>
     </>
   );
 };

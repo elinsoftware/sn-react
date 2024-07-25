@@ -1,42 +1,53 @@
 import React from "react";
-import { useState } from "react";
-import { Card } from "./Card";
+import { ExistingCard } from "./ExistingCard";
+import { NewCard } from "./NewCard";
 
-export const Cards = () => {
-  const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
-    {
-      id: "d529034247270210b27f57f1d16d43b0",
-      name: "Management",
-      ip_pool: "192.168.1.0/24",
-    },
-    {
-      id: "9b09034247270210b27f57f1d16d43aa",
-      name: "Production DNS",
-      ip_pool: "10.0.0.0/16",
-    },
-    {
-      id: "1f19034247270210b27f57f1d16d43ad",
-      name: "Public",
-      ip_pool: "192.168.2.0/12",
-    },
-  ]);
-
-  function deleteNetworkSecurityZoneInfo(id) {
-    setNetworkSecurityZonesList.filter((zoneObj) => zoneObj.id !== id);
-  }
+export const Cards = ({
+  deleteNetworkSecurityZoneInfo,
+  networkSecurityZonesList,
+  newNetworkSecurityInfo,
+  addNewNetworkSecurityZones,
+  cancelNewNetworkSecurityInfo,
+}) => {
   return (
     <>
       <ul>
         {networkSecurityZonesList.map((zoneObj) => {
           return (
-            <Card
+            <ExistingCard
               key={zoneObj.id}
               zoneObj={zoneObj}
-              deleteZoneInfo={deleteNetworkSecurityZoneInfo}
+              deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
             />
           );
         })}
       </ul>
+      <ul>
+        {newNetworkSecurityInfo.length
+          ? newNetworkSecurityInfo.map((newZoneObj) => {
+              return (
+                <NewCard
+                  key={newZoneObj.id}
+                  newZoneObj={newZoneObj}
+                  cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
+                  addNewNetworkSecurityZones={addNewNetworkSecurityZones}
+                />
+              );
+            })
+          : null}
+      </ul>
     </>
   );
 };
+
+/**
+  - can only have 1 newly added at a time
+  - the rest are locked unless hitting the edit button
+
+  - new ones say save/cancel 
+  - existing ones say edit/remove
+
+  - not sure what the checkbox functionality should be doing
+
+  - on submit, make sure there aren't unsaved changes
+ */
