@@ -1,5 +1,9 @@
 import React from "react";
 
 export const Header = () => {
-  return <div>Update Supported Network Security Zone</div>;
+  return (
+    <>
+      <h3>Update Supported Network Security Zone</h3>
+    </>
+  );
 };

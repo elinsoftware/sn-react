@@ -1,27 +1,46 @@
 import React from "react";
+import { Button, Grid, Checkbox, TextField } from "@material-ui/core";
 
 export const ExistingCard = ({ zoneObj, deleteNetworkSecurityZoneInfo }) => {
   return (
     <>
-      <div>
-        <label htmlFor={zoneObj.id}>Zone Name</label>
-        <input type="checkbox" id={zoneObj.id} />
-        <input type="text" id={zoneObj.id} value={zoneObj.name} />
-      </div>
-
-      <div>
-        <label htmlFor={`ip-pool-${zoneObj.id}`}>IP Pool</label>
-        <input
-          type="text"
-          id={`ip-pool-${zoneObj.id}`}
-          value={zoneObj.ip_pool}
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Checkbox color="primary" id={zoneObj.id} />
+        <TextField
+          size="small"
+          disabled
+          id={zoneObj.id}
+          label="Zone Name"
+          defaultValue={zoneObj.name}
+          variant="filled"
         />
-      </div>
 
-      <button>Edit</button>
-      <button onClick={() => deleteNetworkSecurityZoneInfo(zoneObj.id)}>
-        Remove
-      </button>
+        <TextField
+          size="small"
+          disabled
+          id={`ip-pool-${zoneObj.id}`}
+          label="IP Pool"
+          defaultValue={zoneObj.ip_pool}
+          variant="filled"
+        />
+
+        <Button variant="contained" size="small">
+          Edit
+        </Button>
+        <Button
+          onClick={() => deleteNetworkSecurityZoneInfo(zoneObj.id)}
+          variant="outlined"
+          size="small"
+          color="secondary"
+        >
+          Remove
+        </Button>
+      </Grid>
     </>
   );
 };

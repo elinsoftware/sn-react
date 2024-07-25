@@ -1,6 +1,7 @@
 import React from "react";
 import { ExistingCard } from "./ExistingCard";
 import { NewCard } from "./NewCard";
+import { Container } from "@material-ui/core";
 
 export const Cards = ({
   deleteNetworkSecurityZoneInfo,
@@ -15,35 +16,37 @@ export const Cards = ({
 }) => {
   return (
     <>
-      <ul>
-        {networkSecurityZonesList.map((zoneObj) => {
-          return (
-            <ExistingCard
-              key={zoneObj.id}
-              zoneObj={zoneObj}
-              deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
-            />
-          );
-        })}
-      </ul>
-      <ul>
-        {newNetworkSecurityList.length
-          ? newNetworkSecurityList.map((newZoneObj) => {
-              return (
-                <NewCard
-                  key={newZoneObj.id}
-                  newZoneObj={newZoneObj}
-                  cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
-                  addNewNetworkSecurityZones={addNewNetworkSecurityZones}
-                  newZoneName={newZoneName}
-                  newIPPool={newIPPool}
-                  setNewZoneName={setNewZoneName}
-                  setNewIPPool={setNewIPPool}
-                />
-              );
-            })
-          : null}
-      </ul>
+      <Container maxWidth="md">
+        <ul>
+          {networkSecurityZonesList.map((zoneObj) => {
+            return (
+              <ExistingCard
+                key={zoneObj.id}
+                zoneObj={zoneObj}
+                deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
+              />
+            );
+          })}
+        </ul>
+        <ul>
+          {newNetworkSecurityList.length
+            ? newNetworkSecurityList.map((newZoneObj) => {
+                return (
+                  <NewCard
+                    key={newZoneObj.id}
+                    newZoneObj={newZoneObj}
+                    cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
+                    addNewNetworkSecurityZones={addNewNetworkSecurityZones}
+                    newZoneName={newZoneName}
+                    newIPPool={newIPPool}
+                    setNewZoneName={setNewZoneName}
+                    setNewIPPool={setNewIPPool}
+                  />
+                );
+              })
+            : null}
+        </ul>
+      </Container>
     </>
   );
 };
