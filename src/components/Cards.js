@@ -8,6 +8,10 @@ export const Cards = ({
   newNetworkSecurityList,
   addNewNetworkSecurityZones,
   cancelNewNetworkSecurityInfo,
+  newZoneName,
+  newIPPool,
+  setNewZoneName,
+  setNewIPPool,
 }) => {
   return (
     <>
@@ -31,6 +35,10 @@ export const Cards = ({
                   newZoneObj={newZoneObj}
                   cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
                   addNewNetworkSecurityZones={addNewNetworkSecurityZones}
+                  newZoneName={newZoneName}
+                  newIPPool={newIPPool}
+                  setNewZoneName={setNewZoneName}
+                  setNewIPPool={setNewIPPool}
                 />
               );
             })
@@ -41,13 +49,13 @@ export const Cards = ({
 };
 
 /**
-  - can only have 1 newly added at a time
   - the rest are locked unless hitting the edit button
-
-  - new ones say save/cancel 
-  - existing ones say edit/remove
 
   - not sure what the checkbox functionality should be doing
 
   - on submit, make sure there aren't unsaved changes
+
+  - idk what logic he wants for the input and output data
+
+  - zone name/ip pool for new zone id 
  */

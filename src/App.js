@@ -8,6 +8,8 @@ import { useState } from "react";
 import _ from "lodash";
 
 function App() {
+  const [newZoneName, setNewZoneName] = useState("");
+  const [newIPPool, setNewIPPool] = useState("");
   const [newNetworkSecurityList, setNewNetworkSecurityList] = useState([]);
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
     {
@@ -88,6 +90,10 @@ function App() {
           newNetworkSecurityList={newNetworkSecurityList}
           cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
           addNewNetworkSecurityZones={addNewNetworkSecurityZones}
+          newZoneName={newZoneName}
+          newIPPool={newIPPool}
+          setNewZoneName={setNewZoneName}
+          setNewIPPool={setNewIPPool}
         />
         <Footer
           createNetworkSecurityZones={createNetworkSecurityZones}
