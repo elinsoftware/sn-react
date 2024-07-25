@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Grid, Checkbox, TextField } from "@material-ui/core";
+import React, { useState } from "react";
+import { Button, Grid, TextField } from "@material-ui/core";
 
 export const ExistingCard = ({
   zoneObj,
@@ -8,39 +8,53 @@ export const ExistingCard = ({
 }) => {
   const [formDisabled, setFormDisabled] = useState(true);
   const [textBoxVariant, setTextBoxVariant] = useState("filled");
+  const [editButtonText, setEditButtonText] = useState("Edit");
+  const [removeButtonText, setRemoveButtonText] = useState("Remove");
+  const [newIPPool, setNewIPPool] = useState(zoneObj.ip_pool);
 
-  function handleEditForm() {
+  function handleEditForm(ipPool) {
     setFormDisabled(!formDisabled);
-    editNetworkSecurityZoneInfo(zoneObj.id);
-    if (textBoxVariant === "filled") {
-      setTextBoxVariant("outlined");
+    if (formDisabled) {
+      setEditMode();
     } else {
-      setTextBoxVariant("filled");
+      editNetworkSecurityZoneInfo(zoneObj.id, ipPool);
+      setDisabledMode();
     }
+  }
+  function setEditMode() {
+    setTextBoxVariant("outlined");
+    setEditButtonText("Save");
+    setRemoveButtonText("Cancel");
+  }
+
+  function setDisabledMode() {
+    setTextBoxVariant("filled");
+    setEditButtonText("Edit");
+    setRemoveButtonText("Remove");
   }
   return (
     <>
       <Grid
-        className="existing-card-container"
+        className="card-container"
         container
         direction="row"
         justifyContent="center"
         alignItems="center"
       >
-        <Checkbox color="primary" id={zoneObj.id} />
-        <div className="existing-card-text-container">
+        <div className="card-text-container">
           <TextField
-            className="existing-card-text-field"
+            className="card-text-field"
             size="small"
-            disabled={formDisabled}
+            disabled
             id={zoneObj.id}
             label="Zone Name"
             defaultValue={zoneObj.name}
-            variant={textBoxVariant}
+            variant="filled"
           />
 
           <TextField
-            className="existing-card-text-field"
+            className="card-text-field"
+            onChange={(e) => setNewIPPool(e.target.value)}
             size="small"
             disabled={formDisabled}
             id={`ip-pool-${zoneObj.id}`}
@@ -51,21 +65,28 @@ export const ExistingCard = ({
         </div>
 
         <Button
-          id="existing-card-button"
-          onClick={() => handleEditForm()}
+          className="card-button"
+          onClick={() => handleEditForm(newIPPool)}
           variant="contained"
           size="small"
         >
-          Edit
+          {editButtonText}
         </Button>
         <Button
-          id="existing-card-button"
-          onClick={() => deleteNetworkSecurityZoneInfo(zoneObj.id)}
+          className="card-button"
+          onClick={() => {
+            if (formDisabled) {
+              deleteNetworkSecurityZoneInfo(zoneObj.id);
+            } else {
+              setFormDisabled(!formDisabled);
+              setDisabledMode();
+            }
+          }}
           variant="outlined"
           size="small"
           color="secondary"
         >
-          Remove
+          {removeButtonText}
         </Button>
       </Grid>
     </>

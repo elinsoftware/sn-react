@@ -46,13 +46,5 @@ export const Cards = ({
 };
 
 /**
-  - the rest are locked unless hitting the edit button
-
-  - not sure what the checkbox functionality should be doing
-
-  - on submit, make sure there aren't unsaved changes
-
   - idk what logic he wants for the input and output data
-
-  - zone name/ip pool for new zone id 
  */

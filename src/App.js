@@ -27,11 +27,15 @@ function App() {
     },
   ]);
 
-  function editNetworkSecurityZoneInfo(id) {
-    // setNetworkSecurityZonesList(
-    //   networkSecurityZonesList.filter((zoneObj) => zoneObj.id !== id)
-    // );
-    console.log("editing current zone info", id);
+  function editNetworkSecurityZoneInfo(id, ipPool) {
+    setNetworkSecurityZonesList(
+      networkSecurityZonesList.map((zoneObj) => {
+        if (zoneObj.id === id) {
+          zoneObj.ip_pool = ipPool;
+        }
+        return zoneObj;
+      })
+    );
   }
 
   function deleteNetworkSecurityZoneInfo(id) {

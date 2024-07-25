@@ -11,16 +11,15 @@ export const NewCard = ({
   return (
     <>
       <Grid
-        className="existing-card-container"
+        className="card-container"
         container
         direction="row"
         justifyContent="center"
         alignItems="center"
       >
-        <Checkbox color="primary" id={newZoneObj.id} />
-        <div className="existing-card-text-container">
+        <div className="card-text-container">
           <TextField
-            className="existing-card-text-field"
+            className="card-text-field"
             onChange={(e) => setNewZoneName(e.target.value)}
             size="small"
             id={newZoneObj.id}
@@ -30,7 +29,7 @@ export const NewCard = ({
           />
 
           <TextField
-            className="existing-card-text-field"
+            className="card-text-field"
             onChange={(e) => setNewIPPool(e.target.value)}
             size="small"
             id={`ip-pool-${newZoneObj.id}`}
@@ -41,6 +40,7 @@ export const NewCard = ({
         </div>
 
         <Button
+          className="card-button"
           onClick={() =>
             addNewNetworkSecurityZones(newZoneObj.id, newZoneName, newIPPool)
           }
@@ -51,6 +51,7 @@ export const NewCard = ({
           Save
         </Button>
         <Button
+          className="card-button"
           onClick={cancelNewNetworkSecurityInfo}
           variant="outlined"
           size="small"
