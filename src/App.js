@@ -6,6 +6,7 @@ import { Footer } from "./components/Footer.js";
 import "./App.css";
 import { useState } from "react";
 import _ from "lodash";
+import { Grid } from "@material-ui/core";
 
 function App() {
   const [newNetworkSecurityList, setNewNetworkSecurityList] = useState([]);
@@ -95,20 +96,27 @@ function App() {
   return (
     <>
       <div className="app-container">
-        <Header />
-        <Cards
-          editNetworkSecurityZoneInfo={editNetworkSecurityZoneInfo}
-          deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
-          networkSecurityZonesList={networkSecurityZonesList}
-          newNetworkSecurityList={newNetworkSecurityList}
-          cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
-          addNewNetworkSecurityZones={addNewNetworkSecurityZones}
-        />
-        <Footer
-          createNetworkSecurityZones={createNetworkSecurityZones}
-          submitNetworkSecurityZoneInfo={submitNetworkSecurityZoneInfo}
-          closeModal={closeModal}
-        />
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Header />
+          <Cards
+            editNetworkSecurityZoneInfo={editNetworkSecurityZoneInfo}
+            deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
+            networkSecurityZonesList={networkSecurityZonesList}
+            newNetworkSecurityList={newNetworkSecurityList}
+            cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
+            addNewNetworkSecurityZones={addNewNetworkSecurityZones}
+          />
+          <Footer
+            createNetworkSecurityZones={createNetworkSecurityZones}
+            submitNetworkSecurityZoneInfo={submitNetworkSecurityZoneInfo}
+            closeModal={closeModal}
+          />
+        </Grid>
       </div>
     </>
   );
