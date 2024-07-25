@@ -4,6 +4,7 @@ import { NewCard } from "./NewCard";
 import { Container } from "@material-ui/core";
 
 export const Cards = ({
+  editNetworkSecurityZoneInfo,
   deleteNetworkSecurityZoneInfo,
   networkSecurityZonesList,
   newNetworkSecurityList,
@@ -23,6 +24,7 @@ export const Cards = ({
               <ExistingCard
                 key={zoneObj.id}
                 zoneObj={zoneObj}
+                editNetworkSecurityZoneInfo={editNetworkSecurityZoneInfo}
                 deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
               />
             );

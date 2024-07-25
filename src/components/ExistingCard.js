@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Grid, Checkbox, TextField } from "@material-ui/core";
 
-export const ExistingCard = ({ zoneObj, deleteNetworkSecurityZoneInfo }) => {
+export const ExistingCard = ({
+  zoneObj,
+  editNetworkSecurityZoneInfo,
+  deleteNetworkSecurityZoneInfo,
+}) => {
+  const [formDisabled, setFormDisabled] = useState(true);
+  const [textBoxVariant, setTextBoxVariant] = useState("filled");
+
+  function handleEditForm() {
+    setFormDisabled(!formDisabled);
+    editNetworkSecurityZoneInfo(zoneObj.id);
+    if (textBoxVariant === "filled") {
+      setTextBoxVariant("outlined");
+    } else {
+      setTextBoxVariant("filled");
+    }
+  }
   return (
     <>
       <Grid
@@ -13,23 +29,27 @@ export const ExistingCard = ({ zoneObj, deleteNetworkSecurityZoneInfo }) => {
         <Checkbox color="primary" id={zoneObj.id} />
         <TextField
           size="small"
-          disabled
+          disabled={formDisabled}
           id={zoneObj.id}
           label="Zone Name"
           defaultValue={zoneObj.name}
-          variant="filled"
+          variant={textBoxVariant}
         />
 
         <TextField
           size="small"
-          disabled
+          disabled={formDisabled}
           id={`ip-pool-${zoneObj.id}`}
           label="IP Pool"
           defaultValue={zoneObj.ip_pool}
-          variant="filled"
+          variant={textBoxVariant}
         />
 
-        <Button variant="contained" size="small">
+        <Button
+          onClick={() => handleEditForm()}
+          variant="contained"
+          size="small"
+        >
           Edit
         </Button>
         <Button

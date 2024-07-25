@@ -29,6 +29,13 @@ function App() {
     },
   ]);
 
+  function editNetworkSecurityZoneInfo(id) {
+    // setNetworkSecurityZonesList(
+    //   networkSecurityZonesList.filter((zoneObj) => zoneObj.id !== id)
+    // );
+    console.log("editing current zone info", id);
+  }
+
   function deleteNetworkSecurityZoneInfo(id) {
     setNetworkSecurityZonesList(
       networkSecurityZonesList.filter((zoneObj) => zoneObj.id !== id)
@@ -85,6 +92,7 @@ function App() {
       <div className="app-container">
         <Header />
         <Cards
+          editNetworkSecurityZoneInfo={editNetworkSecurityZoneInfo}
           deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
           networkSecurityZonesList={networkSecurityZonesList}
           newNetworkSecurityList={newNetworkSecurityList}

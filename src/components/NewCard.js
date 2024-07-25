@@ -18,26 +18,25 @@ export const NewCard = ({
         justifyContent="center"
         alignItems="center"
       >
-        <div>
-          <label htmlFor={newZoneObj.id}>Zone Name</label>
-          <input type="checkbox" id={newZoneObj.id} />
-          <input
-            type="text"
-            id={newZoneObj.id}
-            onChange={(e) => setNewZoneName(e.target.value)}
-            value={newZoneName}
-          />
-        </div>
+        <Checkbox color="primary" id={newZoneObj.id} />
+        <TextField
+          onChange={(e) => setNewZoneName(e.target.value)}
+          size="small"
+          disabled
+          id={newZoneObj.id}
+          label="Zone Name"
+          defaultValue={newZoneName}
+          variant="filled"
+        />
 
-        <div>
-          <label htmlFor={`ip-pool-${newZoneObj.id}`}>IP Pool</label>
-          <input
-            type="text"
-            onChange={(e) => setNewIPPool(e.target.value)}
-            id={`ip-pool-${newZoneObj.id}`}
-            value={newIPPool}
-          />
-        </div>
+        <TextField
+          size="small"
+          disabled
+          id={`ip-pool-${newZoneObj.id}`}
+          label="IP Pool"
+          defaultValue={newIPPool}
+          variant="filled"
+        />
 
         <Button
           onClick={() => addNewNetworkSecurityZones(newZoneObj.id)}
