@@ -26,13 +26,10 @@ const ipPools = [
   "a9993e364706816aba3e25717850c26c9cd0d89da9993e364706816aba3e25717850c26c9cd0d89d",
 ];
 
-/**
-  - should only match zone names to ip pools associated with the current switch the modal's opened up in
-
-  - meaning we need to be able to identify which switch the modal was opened from
- */
-
 function App() {
+  const [currSysId, setCurrSysId] = useState("");
+  const [allZoneSwitchTable, setAllZoneSwitchTable] = useState([]);
+  const [zoneSwitchTable, setZoneSwitchTable] = useState([]);
   const [selectedName, setSelectedName] = useState(names[0]);
   const [selectedIPPool, setSelectedIPPool] = useState(ipPools[0]);
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
@@ -52,25 +49,30 @@ function App() {
       ip_pool: "192.168.2.0/12",
     },
   ]);
-  //         "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch"
-
   useEffect(() => {
-    axios
-      .get(
-        "https://dev220672.service-now.com/api/now/table/u_cmdb_ci_network_security_zone"
-      )
-      .then((res) => {
-        console.log("ONLY ASSOCIATED POOLS??", res.data);
-      });
-
+    setCurrSysId(
+      document.getElementById("document_tags").getAttribute("data-sys_id")
+    );
     axios
       .get(
         "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch"
       )
       .then((res) => {
-        console.log("MANY TO MANY TABLE", res.data);
+        setAllZoneSwitchTable(res.data.result);
       });
   }, []);
+
+  useEffect(() => {
+    setZoneSwitchTable(
+      allZoneSwitchTable.filter((obj) => {
+        return obj.u_switch.value === currSysId;
+      })
+    );
+  }, [allZoneSwitchTable]);
+
+  useEffect(() => {
+    console.log("end result", zoneSwitchTable);
+  }, [zoneSwitchTable]);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
     setNetworkSecurityZonesList(
