@@ -90,11 +90,11 @@ body {
   }
 
   .card-button {
-    margin-right: 8px !important;
+    margin-right: 10px !important;
   }
 
   .card-text-container {
-    padding-right: 02px;
+    padding-right: 8px;
   }
 
   .card-text-field {
