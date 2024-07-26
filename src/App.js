@@ -29,7 +29,7 @@ function App({ myProp }) {
   ]);
 
   useEffect(() => {
-    console.log("parsed prop in use effect", JSON.parse(myProp));
+    console.log("passed prop in use effect", myProp);
   }, []);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
