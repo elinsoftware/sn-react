@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { hot } from "react-hot-loader/root";
 import { Cards } from "./components/Cards.js";
 import { Footer } from "./components/Footer.js";
@@ -6,6 +6,7 @@ import "./App.css";
 import { useState } from "react";
 import _ from "lodash";
 import { Grid } from "@material-ui/core";
+import Axios from "axios";
 
 function App() {
   const [newNetworkSecurityList, setNewNetworkSecurityList] = useState([]);
@@ -26,6 +27,10 @@ function App() {
       ip_pool: "192.168.2.0/12",
     },
   ]);
+
+  useEffect(() => {
+    console.log("mounted");
+  }, []);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
     setNetworkSecurityZonesList(
