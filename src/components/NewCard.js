@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Grid, Checkbox, TextField } from "@material-ui/core";
+import { Button, Grid, TextField } from "@material-ui/core";
 
 export const NewCard = ({
   newZoneObj,

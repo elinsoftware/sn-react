@@ -47,4 +47,13 @@ export const Cards = ({
 
 /**
   - idk what logic he wants for the input and output data
- */
+
+  - list of names, list of ip pools
+  drop down with search functionality
+  make ip pools long (make sure drop down can adjust for that)
+
+  hover over effect
+
+  roughly 81 characters
+    needs to be able to see the full ip pool
+  */
