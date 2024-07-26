@@ -50,7 +50,7 @@ function App() {
   useEffect(() => {
     axios
       .get(
-        "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch_list"
+        "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch"
       )
       .then((res) => {
         console.log("RESS", res.data);
