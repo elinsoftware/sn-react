@@ -2,13 +2,41 @@ import React, { useEffect } from "react";
 import { hot } from "react-hot-loader/root";
 import { Cards } from "./components/Cards.js";
 import { Footer } from "./components/Footer.js";
+import { AddCards } from "./components/AddCards.js";
 import "./App.css";
 import { useState } from "react";
 import _ from "lodash";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 
+const names = [
+  "Hye-Jin",
+  "Alexandra",
+  "Noburu",
+  "Paskal",
+  "Itzamna",
+  "Xhafer",
+  "Slobodanka",
+  "Fausta",
+  "Kariuki",
+  "Miriam",
+];
+const ipPools = [
+  "e932fa536fa05c1abe3855389eee39c23c72d813b085bf17c2296ba266f72224b7630fccb1a3c057",
+  "e88adaf0526da97746aee6fdf70884d685b84c6ae88adaf0526da97746aee6fdf70884d685b84c6a",
+  "5a2c74a534f2260efc2229595d09d65f38922d325a2c74a534f2260efc2229595d09d65f38922d32",
+  "87b83b3142f0cc46616f748cf9653e473c00ecda87b83b3142f0cc46616f748cf9653e473c00ecda",
+  "b2c4ee5de82866db38f79c6d4a91a626486b70e9b2c4ee5de82866db38f79c6d4a91a626486b70e9",
+  "8961f68dcbb4af171c24541f30b0d181b7ed77f58961f68dcbb4af171c24541f30b0d181b7ed77f5",
+  "26457d44644a142925c19da2df0c433b3341782826457d44644a142925c19da2df0c433b33417828",
+  "70c881d4a26984ddce795f6f71817c9cf4480e7970c881d4a26984ddce795f6f71817c9cf4480e79",
+  "da23614e02469a0d7c7bd1bdab5c9c474b1904dcda23614e02469a0d7c7bd1bdab5c9c474b1904dc",
+  "a9993e364706816aba3e25717850c26c9cd0d89da9993e364706816aba3e25717850c26c9cd0d89d",
+];
+
 function App() {
+  const [selectedName, setSelectedName] = useState(names[0]);
+  const [selectedIPPool, setSelectedIPPool] = useState(ipPools[0]);
   const [newNetworkSecurityList, setNewNetworkSecurityList] = useState([]);
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
     {
@@ -55,57 +83,28 @@ function App() {
     );
   }
 
-  function createNetworkSecurityZones() {
-    setNewNetworkSecurityList([
-      ...newNetworkSecurityList,
+  function addNewNetworkSecurityZones(name, ip_pool) {
+    setNetworkSecurityZonesList([
+      ...networkSecurityZonesList,
       {
         id: crypto.randomUUID(),
-        name: "",
-        ip_pool: "",
+        name,
+        ip_pool,
       },
     ]);
   }
 
-  function addNewNetworkSecurityZones(id, zoneName, ipPool) {
-    // console.log("adding new zones to existing list", id, zoneName, ipPool);
-    // every time you hit add, it removes it from "new list" and takes it to "existing list"
-    let networkSecurityMatch;
-    setNewNetworkSecurityList(
-      newNetworkSecurityList.filter((networkZoneObj) => {
-        if (networkZoneObj.id === id) networkSecurityMatch = networkZoneObj;
-        return networkZoneObj.id !== id;
-      })
-    );
-    networkSecurityMatch.name = zoneName;
-    networkSecurityMatch.ip_pool = ipPool;
-    // Additional logic about if this obj can be submitted if ip pool
-    // and name are empty
-    setNetworkSecurityZonesList([
-      ...networkSecurityZonesList,
-      networkSecurityMatch,
-    ]);
-  }
-
-  function cancelNewNetworkSecurityInfo() {
-    // console.log("cancelled adding new info");
-    const listCopy = _.cloneDeep(newNetworkSecurityList);
-    listCopy.pop();
-    setNewNetworkSecurityList(listCopy);
-  }
-
   function submitNetworkSecurityZoneInfo() {
-    if (newNetworkSecurityList.length) {
-      console.log("there are unsaved security zones");
-      return;
-    }
-    console.log("submitted/updated zones");
-  }
-  function closeModal() {
-    // console.log("close modal");
-    console.log("does next console show");
+    console.log("submit and close modal");
     const closeModalButton = document.getElementById("react-test_closemodal");
     closeModalButton.click();
   }
+
+  function closeModal() {
+    const closeModalButton = document.getElementById("react-test_closemodal");
+    closeModalButton.click();
+  }
+
   return (
     <>
       <div className="app-container">
@@ -119,12 +118,17 @@ function App() {
             editNetworkSecurityZoneInfo={editNetworkSecurityZoneInfo}
             deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
             networkSecurityZonesList={networkSecurityZonesList}
-            newNetworkSecurityList={newNetworkSecurityList}
-            cancelNewNetworkSecurityInfo={cancelNewNetworkSecurityInfo}
+          />
+          <AddCards
+            names={names}
+            ipPools={ipPools}
+            selectedName={selectedName}
+            selectedIPPool={selectedIPPool}
+            setSelectedIPPool={setSelectedIPPool}
+            setSelectedName={setSelectedName}
             addNewNetworkSecurityZones={addNewNetworkSecurityZones}
           />
           <Footer
-            createNetworkSecurityZones={createNetworkSecurityZones}
             submitNetworkSecurityZoneInfo={submitNetworkSecurityZoneInfo}
             closeModal={closeModal}
           />

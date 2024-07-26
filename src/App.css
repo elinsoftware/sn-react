@@ -106,7 +106,6 @@ body {
     margin-bottom: 12px;
     width: 300px !important;
     color: #3e52b2;
-
   }
 
   .drop-down {
@@ -115,6 +114,10 @@ body {
 
   #ip-pool-drop-down-item {
     /* width: 250px; */
+  }
+
+  #display-selected-ip-pool {
+    margin-bottom: 12px;
   }
 
   /* #drop-down-ip-pool {

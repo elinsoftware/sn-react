@@ -1,11 +1,7 @@
 import React from "react";
 import { Button, Grid } from "@material-ui/core";
 
-export const Footer = ({
-  createNetworkSecurityZones,
-  closeModal,
-  submitNetworkSecurityZoneInfo,
-}) => {
+export const Footer = ({ submitNetworkSecurityZoneInfo, closeModal }) => {
   return (
     <>
       <Grid
@@ -14,21 +10,6 @@ export const Footer = ({
         justifyContent="center"
         alignItems="center"
       >
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Button
-            id="add-new-security-zone-button"
-            size="small"
-            variant="contained"
-            onClick={createNetworkSecurityZones}
-          >
-            + Add New Security Zone
-          </Button>
-        </Grid>
         <Grid
           container
           direction="row"
