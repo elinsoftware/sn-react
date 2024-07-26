@@ -21,4 +21,6 @@ if (process.env.NODE_ENV === "development") {
 }
 axios.defaults.headers.put["Content-Type"] = "application/json";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+// Access the global variable
+const myProp = window.myProp;
+ReactDOM.render(<App myProp={myProp} />, document.getElementById("root"));

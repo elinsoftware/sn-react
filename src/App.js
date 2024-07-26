@@ -6,9 +6,9 @@ import "./App.css";
 import { useState } from "react";
 import _ from "lodash";
 import { Grid } from "@material-ui/core";
-import Axios from "axios";
+// import Axios from "axios";
 
-function App() {
+function App({ myProp }) {
   const [newNetworkSecurityList, setNewNetworkSecurityList] = useState([]);
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
     {
@@ -29,7 +29,7 @@ function App() {
   ]);
 
   useEffect(() => {
-    console.log("mounted");
+    console.log("parsed prop in use effect", JSON.parse(myProp));
   }, []);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
