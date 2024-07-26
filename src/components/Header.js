@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 export const Header = () => {
   return (
@@ -10,7 +11,9 @@ export const Header = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <h3>Update Supported Network Security Zone</h3>
+        <Typography variant="h5" gutterBottom>
+          Update Supported Network Security Zone
+        </Typography>
       </Grid>
     </>
   );
