@@ -101,7 +101,10 @@ function App() {
     console.log("submitted/updated zones");
   }
   function closeModal() {
-    console.log("close modal");
+    // console.log("close modal");
+    console.log("does next console show");
+    const closeModalButton = document.getElementById("react-test_closemodal");
+    closeModalButton.click();
   }
   return (
     <>
