@@ -5,7 +5,6 @@ import { Footer } from "./components/Footer.js";
 import { AddCards } from "./components/AddCards.js";
 import "./App.css";
 import { useState } from "react";
-import _ from "lodash";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 
@@ -37,7 +36,6 @@ const ipPools = [
 function App() {
   const [selectedName, setSelectedName] = useState(names[0]);
   const [selectedIPPool, setSelectedIPPool] = useState(ipPools[0]);
-  const [newNetworkSecurityList, setNewNetworkSecurityList] = useState([]);
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
     {
       id: "d529034247270210b27f57f1d16d43b0",
