@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { hot } from "react-hot-loader/root";
-import { Cards } from "./components/Cards.js";
+import { ExistingCard } from "./components/ExistingCard.js";
 import { Footer } from "./components/Footer.js";
 import { AddCards } from "./components/AddCards.js";
 import "./App.css";
@@ -114,11 +114,18 @@ function App() {
           justifyContent="center"
           alignItems="center"
         >
-          <Cards
-            editNetworkSecurityZoneInfo={editNetworkSecurityZoneInfo}
-            deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
-            networkSecurityZonesList={networkSecurityZonesList}
-          />
+          <ul>
+            {networkSecurityZonesList.map((zoneObj) => {
+              return (
+                <ExistingCard
+                  key={zoneObj.id}
+                  zoneObj={zoneObj}
+                  editNetworkSecurityZoneInfo={editNetworkSecurityZoneInfo}
+                  deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
+                />
+              );
+            })}
+          </ul>
           <AddCards
             names={names}
             ipPools={ipPools}
