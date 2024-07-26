@@ -1,5 +1,20 @@
 import React from "react";
-import { Button, Grid, Select, MenuItem, InputLabel } from "@material-ui/core";
+import {
+  FormControl,
+  Button,
+  Grid,
+  Select,
+  MenuItem,
+  InputLabel,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+}));
 
 export const AddCards = ({
   names,
@@ -10,6 +25,7 @@ export const AddCards = ({
   setSelectedName,
   addNewNetworkSecurityZones,
 }) => {
+  const classes = useStyles();
   function handleNameChange(event) {
     setSelectedName(event.target.value);
   }
@@ -21,39 +37,55 @@ export const AddCards = ({
       <Grid
         className="card-container"
         container
-        direction="row"
+        direction="column"
         justifyContent="center"
         alignItems="center"
       >
         <div id="display-selected-ip-pool">{selectedIPPool}</div>
         <div className="card-text-container">
-          <InputLabel htmlFor="selected-name">Zone Name</InputLabel>
-          <Select
-            labelId="selected-name"
-            className="card-text-field"
-            value={selectedName}
-            onChange={handleNameChange}
+          <Grid
+            className="card-container"
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
           >
-            {names.map((name) => (
-              <MenuItem key={name} value={name}>
-                {name}
-              </MenuItem>
-            ))}
-          </Select>
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel htmlFor="selected-name">Zone Name</InputLabel>
+              <Select
+                labelId="selected-name"
+                className="card-text-field"
+                value={selectedName}
+                onChange={handleNameChange}
+              >
+                {names.map((name) => (
+                  <MenuItem key={name} value={name}>
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          <InputLabel htmlFor="selected-ip-pool">IP Pool</InputLabel>
-          <Select
-            labelId="selected-ip-pool"
-            className="card-text-field"
-            value={selectedIPPool}
-            onChange={handleIPPoolChange}
-          >
-            {ipPools.map((ipPool) => (
-              <MenuItem key={ipPool} value={ipPool} id="ip-pool-drop-down-item">
-                {ipPool}
-              </MenuItem>
-            ))}
-          </Select>
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel htmlFor="selected-ip-pool">IP Pool</InputLabel>
+              <Select
+                labelId="selected-ip-pool"
+                className="card-text-field"
+                value={selectedIPPool}
+                onChange={handleIPPoolChange}
+              >
+                {ipPools.map((ipPool) => (
+                  <MenuItem
+                    key={ipPool}
+                    value={ipPool}
+                    id="ip-pool-drop-down-item"
+                  >
+                    {ipPool}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
         </div>
         <Grid
           container
