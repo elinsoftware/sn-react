@@ -6,9 +6,9 @@ import "./App.css";
 import { useState } from "react";
 import _ from "lodash";
 import { Grid } from "@material-ui/core";
-// import Axios from "axios";
+import axios from "axios";
 
-function App({ myProp }) {
+function App() {
   const [newNetworkSecurityList, setNewNetworkSecurityList] = useState([]);
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
     {
@@ -29,7 +29,13 @@ function App({ myProp }) {
   ]);
 
   useEffect(() => {
-    console.log("passed prop in use effect", myProp);
+    axios
+      .get(
+        "https://dev220672.service-now.com/api/now/table/u_cmdb_ci_network_security_zone"
+      )
+      .then((res) => {
+        console.log("RESS", res.data);
+      });
   }, []);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
