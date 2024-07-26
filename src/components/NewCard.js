@@ -1,21 +1,11 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Grid,
-  TextField,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-} from "@material-ui/core";
+import { Button, Grid, Select, MenuItem, InputLabel } from "@material-ui/core";
 
 export const NewCard = ({
   newZoneObj,
   cancelNewNetworkSecurityInfo,
   addNewNetworkSecurityZones,
 }) => {
-  const [newZoneName, setNewZoneName] = useState("");
-  const [newIPPool, setNewIPPool] = useState("");
   const [names, setNames] = useState([
     "Hye-Jin",
     "Alexandra",
@@ -67,11 +57,7 @@ export const NewCard = ({
             onChange={handleNameChange}
           >
             {names.map((name) => (
-              <MenuItem
-                key={name}
-                value={name}
-                // style={getStyles(name, personName, theme)}
-              >
+              <MenuItem key={name} value={name}>
                 {name}
               </MenuItem>
             ))}
@@ -85,42 +71,21 @@ export const NewCard = ({
             onChange={handleIPPoolChange}
           >
             {ipPools.map((ipPool) => (
-              <MenuItem
-                key={ipPool}
-                value={ipPool}
-                id="ip-pool-drop-down-item"
-                // style={getStyles(name, personName, theme)}
-              >
+              <MenuItem key={ipPool} value={ipPool} id="ip-pool-drop-down-item">
                 {ipPool}
               </MenuItem>
             ))}
           </Select>
-
-          {/* <TextField
-            className="card-text-field"
-            onChange={(e) => setNewZoneName(e.target.value)}
-            size="small"
-            id={newZoneObj.id}
-            label="Zone Name"
-            defaultValue={newZoneName}
-            variant="outlined"
-          />
-
-          <TextField
-            className="card-text-field"
-            onChange={(e) => setNewIPPool(e.target.value)}
-            size="small"
-            id={`ip-pool-${newZoneObj.id}`}
-            label="IP Pool"
-            defaultValue={newIPPool}
-            variant="outlined"
-          /> */}
         </div>
 
         <Button
           className="card-button"
           onClick={() =>
-            addNewNetworkSecurityZones(newZoneObj.id, newZoneName, newIPPool)
+            addNewNetworkSecurityZones(
+              newZoneObj.id,
+              selectedName,
+              selectedIPPool
+            )
           }
           variant="contained"
           size="small"
