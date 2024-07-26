@@ -1,6 +1,5 @@
 import React from "react";
 import { hot } from "react-hot-loader/root";
-import { Header } from "./components/Header.js";
 import { Cards } from "./components/Cards.js";
 import { Footer } from "./components/Footer.js";
 import "./App.css";
@@ -102,7 +101,6 @@ function App() {
           justifyContent="center"
           alignItems="center"
         >
-          <Header />
           <Cards
             editNetworkSecurityZoneInfo={editNetworkSecurityZoneInfo}
             deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}

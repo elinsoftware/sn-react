@@ -109,5 +109,14 @@ body {
 
   }
 
-  #footer-button {
+  .drop-down {
+    width: 200px;
   }
+
+  #ip-pool-drop-down-item {
+    /* width: 250px; */
+  }
+
+  /* #drop-down-ip-pool {
+    max-width: 50%;
+  } */
