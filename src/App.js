@@ -19,13 +19,11 @@ function App() {
 
   useEffect(() => {
     getData();
-    const urlSearchVal = window.location.search;
-    const regex = /sys_id=([a-f0-9]{32})/;
-    setCurrSysId(urlSearchVal.match(regex)[1]);
+    getSelfSwitchId();
   }, []);
 
   useEffect(() => {
-    if (allZoneSwitchRecords.length) updateStuff();
+    if (allZoneSwitchRecords.length) setDropDownLists();
   }, [allZoneSwitchRecords]);
 
   async function getData() {
@@ -44,8 +42,13 @@ function App() {
     }
   }
 
-  function updateStuff() {
-    console.log("stuff", allZoneSwitchRecords);
+  function getSelfSwitchId() {
+    const urlSearchVal = window.location.search;
+    const regex = /sys_id=([a-f0-9]{32})/;
+    setCurrSysId(urlSearchVal.match(regex)[1]);
+  }
+
+  function setDropDownLists() {
     const filteredIpPools = [];
     const zonesWithIpPools = [];
     const zoneLabelsList = new Set([]);
@@ -190,12 +193,7 @@ function App() {
 export default hot(App);
 
 /**
- - i guess they're editing the label, not the id right??!?!?!
+ - fix the delete, add, edit functionalities
 
-  questions to ask Jon:
-    - does editing an ip pool name create a new one or override
-    the existing one?
-
-  do you want the edit to be a drop down of available free ones?
-  no that's stupid, you can't just "create a new ip pool"
+ - selected zone and pool labels needs to be removed
  */
