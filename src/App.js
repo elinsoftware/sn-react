@@ -8,30 +8,15 @@ import { useState } from "react";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 
-const names = [
-  "Hye-Jin",
-  "Alexandra",
-  "Noburu",
-  "Paskal",
-  "Itzamna",
-  "Xhafer",
-  "Slobodanka",
-  "Fausta",
-  "Kariuki",
-  "Miriam",
-];
-const ipPools = [
-  "70c881d4a26984ddce795f6f71817c9cf4480e7970c881d4a26984ddce795f6f71817c9cf4480e79",
-  "da23614e02469a0d7c7bd1bdab5c9c474b1904dcda23614e02469a0d7c7bd1bdab5c9c474b1904dc",
-  "a9993e364706816aba3e25717850c26c9cd0d89da9993e364706816aba3e25717850c26c9cd0d89d",
-];
+const names = ["Public", "Private", "Management"];
 
 function App() {
   const [currSysId, setCurrSysId] = useState("");
   const [allZoneSwitchTable, setAllZoneSwitchTable] = useState([]);
-  const [zoneSwitchTable, setZoneSwitchTable] = useState([]);
+  const [ipPools, setIpPools] = useState([]);
+
   const [selectedName, setSelectedName] = useState(names[0]);
-  const [selectedIPPool, setSelectedIPPool] = useState(ipPools[0]);
+  const [selectedIPPool, setSelectedIPPool] = useState("");
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
     {
       id: "d529034247270210b27f57f1d16d43b0",
@@ -63,16 +48,19 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setZoneSwitchTable(
-      allZoneSwitchTable.filter((obj) => {
-        return obj.u_switch.value === currSysId;
-      })
-    );
+    const filteredIpPools = [];
+    for (let i = 0; i < allZoneSwitchTable.length; i++) {
+      const tableObj = allZoneSwitchTable[i];
+      if (
+        tableObj.u_switch.value === currSysId &&
+        !tableObj.u_network_security_zone
+      ) {
+        filteredIpPools.push(tableObj.u_ip_pool.value);
+      }
+    }
+    setIpPools(filteredIpPools);
+    setSelectedIPPool(filteredIpPools[0]);
   }, [allZoneSwitchTable]);
-
-  useEffect(() => {
-    console.log("end result", zoneSwitchTable);
-  }, [zoneSwitchTable]);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
     setNetworkSecurityZonesList(

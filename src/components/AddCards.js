@@ -41,7 +41,6 @@ export const AddCards = ({
         justifyContent="center"
         alignItems="center"
       >
-        {/* <div id="display-selected-ip-pool">{selectedIPPool}</div> */}
         <div className="card-text-container">
           <Grid
             className="card-container"
