@@ -7,14 +7,7 @@ import "./App.css";
 import { useState } from "react";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
-
-const zoneNameToIdMap = {
-  "1f19034247270210b27f57f1d16d43ad": "Hosting",
-  "9b09034247270210b27f57f1d16d43aa": "Public",
-  d529034247270210b27f57f1d16d43b0: "Management",
-};
-
-const names = ["Public", "Hosting", "Management"];
+import { zoneNameToIdMap, names } from "./data/tableData.js";
 
 function App() {
   const [currSysId, setCurrSysId] = useState("");
@@ -43,6 +36,7 @@ function App() {
     console.log(allZoneSwitchRecords);
     allZoneSwitchRecords.forEach((record) => {
       if (record.u_switch.value === currSysId) {
+        // record has matching ip pools with network zone names
         if (record.u_network_security_zone && record.u_ip_pool) {
           const newRecordObj = {
             name: zoneNameToIdMap[record.u_network_security_zone.value],
@@ -51,6 +45,7 @@ function App() {
           };
           zonesWithIpPools.push(newRecordObj);
         } else if (!record.u_network_security_zone) {
+          // record has only ip pools
           filteredIpPools.push(record.u_ip_pool.value);
         }
       }
