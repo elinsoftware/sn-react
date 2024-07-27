@@ -63,19 +63,28 @@ function App() {
     const filteredIpPools = [];
     console.log("all records", allZoneSwitchRecords);
     console.log("map", zoneNameToIdMap);
-    for (let i = 0; i < allZoneSwitchRecords.length; i++) {
-      const tableObj = allZoneSwitchRecords[i];
-      // Only records for current switch
-      if (tableObj.u_switch.value === currSysId) {
-        if (tableObj.u_network_security_zone && tableObj.u_ip_pool) {
-          // has both
-          console.log("both network and ip pools", tableObj);
+    // for (let i = 0; i < allZoneSwitchRecords.length; i++) {
+    //   const record = allZoneSwitchRecords[i];
+    //   if (record.u_switch.value === currSysId) {
+    //     if (record.u_network_security_zone && record.u_ip_pool) {
+    //       console.log("both network and ip pools", record);
+    //       // this is where you cross reference the network id to your mapper so that you can put them in existing cards correctly
+    //     } else if (!record.u_network_security_zone) {
+    //       filteredIpPools.push(record.u_ip_pool.value);
+    //     }
+    //   }
+    // }
+
+    allZoneSwitchRecords.forEach((record) => {
+      if (record.u_switch.value === currSysId) {
+        if (record.u_network_security_zone && record.u_ip_pool) {
+          console.log("both network and ip pools", record);
           // this is where you cross reference the network id to your mapper so that you can put them in existing cards correctly
-        } else if (!tableObj.u_network_security_zone) {
-          filteredIpPools.push(tableObj.u_ip_pool.value);
+        } else if (!record.u_network_security_zone) {
+          filteredIpPools.push(record.u_ip_pool.value);
         }
       }
-    }
+    });
     setIpPools(filteredIpPools);
     setSelectedIPPool(filteredIpPools[0]);
   }, [allZoneSwitchRecords]);
