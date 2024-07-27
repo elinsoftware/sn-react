@@ -9,9 +9,9 @@ import { Grid } from "@material-ui/core";
 import axios from "axios";
 
 const zoneNameToIdMap = {
-  Hosting: "1f19034247270210b27f57f1d16d43ad",
-  Public: "9b09034247270210b27f57f1d16d43aa",
-  Management: "d529034247270210b27f57f1d16d43b0",
+  "1f19034247270210b27f57f1d16d43ad": "Hosting",
+  "9b09034247270210b27f57f1d16d43aa": "Public",
+  d529034247270210b27f57f1d16d43b0: "Management",
 };
 
 const names = ["Public", "Hosting", "Management"];
@@ -23,23 +23,7 @@ function App() {
 
   const [selectedName, setSelectedName] = useState(names[0]);
   const [selectedIPPool, setSelectedIPPool] = useState("");
-  const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([
-    {
-      id: "d529034247270210b27f57f1d16d43b0",
-      name: "Management",
-      ip_pool: "192.168.1.0/24",
-    },
-    {
-      id: "9b09034247270210b27f57f1d16d43aa",
-      name: "Production DNS",
-      ip_pool: "10.0.0.0/16",
-    },
-    {
-      id: "1f19034247270210b27f57f1d16d43ad",
-      name: "Public",
-      ip_pool: "192.168.2.0/12",
-    },
-  ]);
+  const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([]);
   useEffect(() => {
     setCurrSysId(
       document.getElementById("document_tags").getAttribute("data-sys_id")
@@ -54,37 +38,24 @@ function App() {
   }, []);
 
   useEffect(() => {
-    /*
-      - have to filter out 3 arrays:
-      - names
-      - ip pools
-      - already combined sets
-    */
     const filteredIpPools = [];
-    console.log("all records", allZoneSwitchRecords);
-    console.log("map", zoneNameToIdMap);
-    // for (let i = 0; i < allZoneSwitchRecords.length; i++) {
-    //   const record = allZoneSwitchRecords[i];
-    //   if (record.u_switch.value === currSysId) {
-    //     if (record.u_network_security_zone && record.u_ip_pool) {
-    //       console.log("both network and ip pools", record);
-    //       // this is where you cross reference the network id to your mapper so that you can put them in existing cards correctly
-    //     } else if (!record.u_network_security_zone) {
-    //       filteredIpPools.push(record.u_ip_pool.value);
-    //     }
-    //   }
-    // }
-
+    const zonesWithIpPools = [];
+    console.log(allZoneSwitchRecords);
     allZoneSwitchRecords.forEach((record) => {
       if (record.u_switch.value === currSysId) {
         if (record.u_network_security_zone && record.u_ip_pool) {
-          console.log("both network and ip pools", record);
-          // this is where you cross reference the network id to your mapper so that you can put them in existing cards correctly
+          const newRecordObj = {
+            name: zoneNameToIdMap[record.u_network_security_zone.value],
+            id: record.u_network_security_zone.value,
+            ip_pool: record.u_ip_pool.value,
+          };
+          zonesWithIpPools.push(newRecordObj);
         } else if (!record.u_network_security_zone) {
           filteredIpPools.push(record.u_ip_pool.value);
         }
       }
     });
+    setNetworkSecurityZonesList(zonesWithIpPools);
     setIpPools(filteredIpPools);
     setSelectedIPPool(filteredIpPools[0]);
   }, [allZoneSwitchRecords]);
