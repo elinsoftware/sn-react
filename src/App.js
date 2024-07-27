@@ -18,7 +18,7 @@ function App() {
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([]);
 
   useEffect(() => {
-    getData();
+    getNetworkSecurityZoneSwitcheRecords();
     getSelfSwitchId();
   }, []);
 
@@ -26,7 +26,7 @@ function App() {
     if (allZoneSwitchRecords.length) setDropDownLists();
   }, [allZoneSwitchRecords]);
 
-  async function getData() {
+  async function getNetworkSecurityZoneSwitcheRecords() {
     try {
       const resp = await axios.get(
         "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch",
