@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const AddCards = ({
-  zoneLabels,
+  zoneNames,
   availableIpPools,
   selectedZoneLabel,
   selectedIPPool,
@@ -56,9 +56,12 @@ export const AddCards = ({
                 className="card-text-field"
                 onChange={handleNameChange}
               >
-                {zoneLabels.map((label) => (
-                  <MenuItem key={label} value={label}>
-                    {label}
+                {zoneNames.map((zoneName) => (
+                  <MenuItem
+                    key={zoneName.zoneNameId}
+                    value={zoneName.zoneNameLabel}
+                  >
+                    {zoneName.zoneNameLabel}
                   </MenuItem>
                 ))}
               </Select>
@@ -71,13 +74,13 @@ export const AddCards = ({
                 className="card-text-field"
                 onChange={handleIPPoolChange}
               >
-                {availableIpPools.map((ipPool) => (
+                {availableIpPools.map((ipObj) => (
                   <MenuItem
-                    key={ipPool}
-                    value={ipPool}
+                    key={ipObj.ipPoolId}
+                    value={ipObj.ipPoolLabel}
                     id="ip-pool-drop-down-item"
                   >
-                    {ipPool}
+                    {ipObj.ipPoolLabel}
                   </MenuItem>
                 ))}
               </Select>
