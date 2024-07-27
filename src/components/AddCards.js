@@ -54,6 +54,7 @@ export const AddCards = ({
               <Select
                 labelId="selected-name"
                 className="card-text-field"
+                value={selectedZoneLabel}
                 onChange={handleNameChange}
               >
                 {zoneNames.map((zoneName) => (

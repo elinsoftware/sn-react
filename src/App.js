@@ -83,13 +83,13 @@ function App() {
     setZoneNames(Array.from(zoneLabelsList));
     setNetworkSecurityZonesList(zonesWithIpPools);
     setAvailableIpPools(filteredIpPools);
-    setSelectedIPPool(filteredIpPools[0].ipPoolLabel);
   }
 
   // updates selected
   useEffect(() => {
-    // setSelectedIPPool(availableIpPools[0].ipPoolLabel);
-    // setSelectedZoneLabel(zoneNames[0].zoneNameLabel);
+    if (availableIpPools.length)
+      setSelectedIPPool(availableIpPools[0].ipPoolLabel);
+    if (zoneNames.length) setSelectedZoneLabel(zoneNames[0].zoneNameLabel);
   }, [availableIpPools]);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
