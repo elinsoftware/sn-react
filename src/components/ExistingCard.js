@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
 
 export const ExistingCard = ({
-  zoneObj,
+  record,
   editNetworkSecurityZoneInfo,
   deleteNetworkSecurityZoneInfo,
 }) => {
@@ -10,14 +10,14 @@ export const ExistingCard = ({
   const [textBoxVariant, setTextBoxVariant] = useState("filled");
   const [editButtonText, setEditButtonText] = useState("Edit");
   const [removeButtonText, setRemoveButtonText] = useState("Remove");
-  const [newIPPool, setNewIPPool] = useState(zoneObj.ipPool);
+  const [newIPPool, setNewIPPool] = useState(record.ipPool);
 
   function handleEditForm(ipPool) {
     setFormDisabled(!formDisabled);
     if (formDisabled) {
       setEditMode();
     } else {
-      editNetworkSecurityZoneInfo(zoneObj.id, ipPool);
+      editNetworkSecurityZoneInfo(record.id, ipPool);
       setDisabledMode();
     }
   }
@@ -46,9 +46,9 @@ export const ExistingCard = ({
             className="card-text-field"
             size="small"
             disabled
-            id={zoneObj.zoneNameId}
+            id={record.zoneNameId}
             label="Zone Name"
-            defaultValue={zoneObj.zoneNameLabel}
+            defaultValue={record.zoneNameLabel}
             variant="filled"
           />
 
@@ -57,9 +57,9 @@ export const ExistingCard = ({
             onChange={(e) => setNewIPPool(e.target.value)}
             size="small"
             disabled={formDisabled}
-            id={`ip-pool-${zoneObj.ipPoolId}`}
+            id={`ip-pool-${record.ipPoolId}`}
             label="IP Pool"
-            defaultValue={zoneObj.ipPoolLabel}
+            defaultValue={record.ipPoolLabel}
             variant={textBoxVariant}
           />
         </div>
@@ -76,7 +76,7 @@ export const ExistingCard = ({
           className="card-button"
           onClick={() => {
             if (formDisabled) {
-              deleteNetworkSecurityZoneInfo(zoneObj.id);
+              deleteNetworkSecurityZoneInfo(record.id);
             } else {
               setFormDisabled(!formDisabled);
               setDisabledMode();

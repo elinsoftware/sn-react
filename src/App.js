@@ -11,7 +11,7 @@ import axios from "axios";
 function App() {
   const [mySwitchSysId, setMySwitchSysId] = useState("");
   const [allZoneSwitchRecords, setAllZoneSwitchRecords] = useState([]);
-  const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([]);
+  const [matchedZonesAndIpPools, setMatchedZonesAndIpPools] = useState([]);
   const [securityZones, setSecurityZones] = useState([]);
   const [availableIpPools, setAvailableIpPools] = useState([]);
 
@@ -83,29 +83,29 @@ function App() {
     console.log("full list", zonesWithIpPools);
     console.log("avail ip pools", filteredIpPools);
     setSecurityZones(Array.from(securityZoneSet));
-    setNetworkSecurityZonesList(zonesWithIpPools);
+    setMatchedZonesAndIpPools(zonesWithIpPools);
     setAvailableIpPools(filteredIpPools);
   }
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
     // check there are no duplicate ipPool(s)
     // what happens when someone is editing the ip pool? does it become a new one or does it override the existing one?
-    setNetworkSecurityZonesList(
-      networkSecurityZonesList.map((zoneObj) => {
-        if (zoneObj.id === id) {
-          zoneObj.ipPool = ipPool;
+    setMatchedZonesAndIpPools(
+      matchedZonesAndIpPools.map((record) => {
+        if (record.ipPoolId === id) {
+          record.ipPoolLabel = ipPool;
         }
-        return zoneObj;
+        return record;
       })
     );
   }
 
   function deleteNetworkSecurityZoneInfo(id) {
     let newAvailableIPPool;
-    setNetworkSecurityZonesList(
-      networkSecurityZonesList.filter((zoneObj) => {
-        if (zoneObj.id === id) newAvailableIPPool = zoneObj.ipPool;
-        return zoneObj.id !== id;
+    setMatchedZonesAndIpPools(
+      matchedZonesAndIpPools.filter((record) => {
+        if (record.ipPoolId === id) newAvailableIPPool = record.ipPool;
+        return record.ipPoolId !== id;
       })
     );
     setAvailableIpPools([...availableIpPools, newAvailableIPPool]);
@@ -122,8 +122,8 @@ function App() {
     );
 
     // adds to matching zones/ip pools list
-    setNetworkSecurityZonesList([
-      ...networkSecurityZonesList,
+    setMatchedZonesAndIpPools([
+      ...matchedZonesAndIpPools,
       {
         ipPoolLabel: ipPool.ipPoolLabel,
         ipPoolId: ipPool.ipPoolId,
@@ -154,11 +154,11 @@ function App() {
           alignItems="center"
         >
           <ul>
-            {networkSecurityZonesList.map((zoneObj) => {
+            {matchedZonesAndIpPools.map((record) => {
               return (
                 <ExistingCard
-                  key={zoneObj.id}
-                  zoneObj={zoneObj}
+                  key={record.ipPoolId}
+                  record={record}
                   editNetworkSecurityZoneInfo={editNetworkSecurityZoneInfo}
                   deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
                 />
