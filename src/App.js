@@ -13,8 +13,7 @@ function App() {
   const [currSysId, setCurrSysId] = useState("");
   const [allZoneSwitchRecords, setAllZoneSwitchRecords] = useState([]);
   const [ipPools, setIpPools] = useState([]);
-
-  const [selectedName, setSelectedName] = useState(names[0]);
+  const [selectedName, setSelectedName] = useState("Public");
   const [selectedIPPool, setSelectedIPPool] = useState("");
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([]);
   useEffect(() => {
@@ -31,9 +30,9 @@ function App() {
   }, []);
 
   useEffect(() => {
+    console.log(allZoneSwitchRecords);
     const filteredIpPools = [];
     const zonesWithIpPools = [];
-    console.log(allZoneSwitchRecords);
     allZoneSwitchRecords.forEach((record) => {
       if (record.u_switch.value === currSysId) {
         // record has matching ip pools with network zone names
@@ -41,7 +40,7 @@ function App() {
           const newRecordObj = {
             name: zoneNameToIdMap[record.u_network_security_zone.value],
             id: record.u_network_security_zone.value,
-            ip_pool: record.u_ip_pool.value,
+            ipPool: record.u_ip_pool.value,
           };
           zonesWithIpPools.push(newRecordObj);
         } else if (!record.u_network_security_zone) {
@@ -59,7 +58,7 @@ function App() {
     setNetworkSecurityZonesList(
       networkSecurityZonesList.map((zoneObj) => {
         if (zoneObj.id === id) {
-          zoneObj.ip_pool = ipPool;
+          zoneObj.ipPool = ipPool;
         }
         return zoneObj;
       })
@@ -72,13 +71,18 @@ function App() {
     );
   }
 
-  function addNewNetworkSecurityZones(name, ip_pool) {
+  function validateIpPool(ipPool) {
+    console.log("hi", ipPool);
+  }
+  function addNewNetworkSecurityZones(name, ipPool) {
+    // needs to be a safe guard that ip pool doesn't match with a previously existing one in case user decides to custome type something in
+    validateIpPool(ipPool);
     setNetworkSecurityZonesList([
       ...networkSecurityZonesList,
       {
-        id: crypto.randomUUID(),
+        id: ipPool,
         name,
-        ip_pool,
+        ipPool,
       },
     ]);
   }
@@ -139,6 +143,4 @@ export default hot(App);
 /**
   - every time a user chooses an ip pool to add, it has to be taken out of the "choose from" list
   - whenever they change or delete an established ip pool, it has to go back to the filtered list
-
-  - need to find a way to query the names of the zones and not just their ids
  */

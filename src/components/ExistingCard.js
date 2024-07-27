@@ -10,7 +10,7 @@ export const ExistingCard = ({
   const [textBoxVariant, setTextBoxVariant] = useState("filled");
   const [editButtonText, setEditButtonText] = useState("Edit");
   const [removeButtonText, setRemoveButtonText] = useState("Remove");
-  const [newIPPool, setNewIPPool] = useState(zoneObj.ip_pool);
+  const [newIPPool, setNewIPPool] = useState(zoneObj.ipPool);
 
   function handleEditForm(ipPool) {
     setFormDisabled(!formDisabled);
@@ -59,7 +59,7 @@ export const ExistingCard = ({
             disabled={formDisabled}
             id={`ip-pool-${zoneObj.id}`}
             label="IP Pool"
-            defaultValue={zoneObj.ip_pool}
+            defaultValue={zoneObj.ipPool}
             variant={textBoxVariant}
           />
         </div>
