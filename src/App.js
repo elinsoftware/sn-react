@@ -23,15 +23,27 @@ function App() {
     );
     axios
       .get(
-        "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch"
+        "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch",
+        {
+          params: {
+            sysparm_display_value: "all",
+          },
+        }
       )
       .then((res) => {
         setAllZoneSwitchRecords(res.data.result);
       });
   }, []);
 
+  /**
+    NOW HAVE ACCESS TO LABELS AND IDS FOR BOTH IP POOL AND NETWORK SECURITY ZONES!
+   */
+
   useEffect(() => {
     console.log(allZoneSwitchRecords);
+    // THE SELF SYS ID IS PART OF THE URL!
+    // URL: 3D5572960747af0610b27f57f1d16d439a
+    // SYS ID: 5572960747af0610b27f57f1d16d439a
     const filteredIpPools = [];
     const zonesWithIpPools = [];
     allZoneSwitchRecords.forEach((record) => {
@@ -39,7 +51,7 @@ function App() {
         // record has matching ip pools with network zone names
         if (record.u_network_security_zone && record.u_ip_pool) {
           const newRecordObj = {
-            name: zoneNameToIdMap[record.u_network_security_zone.value],
+            name: record.u_network_security_zone.display_value,
             id: record.u_network_security_zone.value,
             ipPool: record.u_ip_pool.value,
           };
@@ -156,16 +168,6 @@ export default hot(App);
 
 /**
  - i guess they're editing the label, not the id right??!?!?!
-
-
-  - every time a user chooses an ip pool to add, it has to be taken out of the "choose from" list
-  - whenever they change or delete an established ip pool, it has to go back to the filtered list
-
-  forget the editing part for now
-  - when ever an ip pool from the available list gets added, remove it from
-  that list
-
-
 
   questions to ask Jon:
     - does editing an ip pool name create a new one or override
