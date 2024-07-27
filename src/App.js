@@ -142,3 +142,10 @@ function App() {
 }
 
 export default hot(App);
+
+/**
+  - every time a user chooses an ip pool to add, it has to be taken out of the "choose from" list
+  - whenever they change or delete an established ip pool, it has to go back to the filtered list
+
+  - need to find a way to query the names of the zones and not just their ids
+ */
