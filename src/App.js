@@ -10,11 +10,9 @@ import axios from "axios";
 
 function App() {
   const [currSysId, setCurrSysId] = useState("");
-  const [zoneNames, setZoneNames] = useState([]);
+  const [securityZones, setSecurityZones] = useState([]);
   const [availableIpPools, setAvailableIpPools] = useState([]);
   const [allZoneSwitchRecords, setAllZoneSwitchRecords] = useState([]);
-  const [selectedZoneLabel, setSelectedZoneLabel] = useState("");
-  const [selectedIPPool, setSelectedIPPool] = useState("");
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([]);
 
   useEffect(() => {
@@ -51,12 +49,12 @@ function App() {
   function setDropDownLists() {
     const filteredIpPools = [];
     const zonesWithIpPools = [];
-    const zoneLabelsList = new Set([]);
+    const securityZoneSet = new Set([]);
 
     allZoneSwitchRecords.forEach((record) => {
       if (record.u_switch.value === currSysId) {
         if (record.u_network_security_zone.display_value) {
-          zoneLabelsList.add({
+          securityZoneSet.add({
             zoneNameLabel: record.u_network_security_zone.display_value,
             zoneNameId: record.u_network_security_zone.value,
           });
@@ -80,20 +78,13 @@ function App() {
       }
     });
 
-    console.log("zone names", Array.from(zoneLabelsList));
+    console.log("zone names", Array.from(securityZoneSet));
     console.log("full list", zonesWithIpPools);
     console.log("avail ip pools", filteredIpPools);
-    setZoneNames(Array.from(zoneLabelsList));
+    setSecurityZones(Array.from(securityZoneSet));
     setNetworkSecurityZonesList(zonesWithIpPools);
     setAvailableIpPools(filteredIpPools);
   }
-
-  // updates selected
-  useEffect(() => {
-    if (availableIpPools.length)
-      setSelectedIPPool(availableIpPools[0].ipPoolLabel);
-    if (zoneNames.length) setSelectedZoneLabel(zoneNames[0].zoneNameLabel);
-  }, [availableIpPools]);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
     // check there are no duplicate ipPool(s)
@@ -121,20 +112,22 @@ function App() {
 
   // THIS NEEDS TO BE FIXED, NEED TO MATCH BY ID NOT LABEL
   // THE WHOLE CHANGE HANDLER NEEDS TO ACCOUNT FOR BOTH LABEL AND IDS OF NAMES AND IP POOLS
-  function addNewNetworkSecurityZones(zoneNameLabel, ipPoolLabel) {
+  function addNewNetworkSecurityZones(securityZone, ipPool) {
     // removes from available ip pools
     setAvailableIpPools(
-      availableIpPools.filter((ip_pool_label) => ip_pool_label !== ipPoolLabel)
+      availableIpPools.filter(
+        (ip_pool_label) => ip_pool_label !== ipPool.ipPoolLabel
+      )
     );
 
     // adds to matching zones/ip pools list
     setNetworkSecurityZonesList([
       ...networkSecurityZonesList,
       {
-        ipPoolLabel,
-        ipPoolId: "1",
-        zoneNameLabel,
-        zoneNameId: "1",
+        ipPoolLabel: ipPool.ipPoolLabel,
+        ipPoolId: ipPool.ipPoolId,
+        zoneNameLabel: securityZone.zoneNameLabel,
+        zoneNameId: securityZone.zoneNameId,
       },
     ]);
   }
@@ -172,12 +165,8 @@ function App() {
             })}
           </ul>
           <AddCards
-            zoneNames={zoneNames}
+            securityZones={securityZones}
             availableIpPools={availableIpPools}
-            selectedZoneLabel={selectedZoneLabel}
-            selectedIPPool={selectedIPPool}
-            setSelectedIPPool={setSelectedIPPool}
-            setSelectedZoneLabel={setSelectedZoneLabel}
             addNewNetworkSecurityZones={addNewNetworkSecurityZones}
           />
           <Footer
