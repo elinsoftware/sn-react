@@ -12,10 +12,11 @@ import { zoneNameToIdMap, names } from "./data/tableData.js";
 function App() {
   const [currSysId, setCurrSysId] = useState("");
   const [allZoneSwitchRecords, setAllZoneSwitchRecords] = useState([]);
-  const [ipPools, setIpPools] = useState([]);
+  const [availableIpPools, setAvailableIpPools] = useState([]);
   const [selectedName, setSelectedName] = useState("Public");
   const [selectedIPPool, setSelectedIPPool] = useState("");
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([]);
+
   useEffect(() => {
     setCurrSysId(
       document.getElementById("document_tags").getAttribute("data-sys_id")
@@ -50,11 +51,18 @@ function App() {
       }
     });
     setNetworkSecurityZonesList(zonesWithIpPools);
-    setIpPools(filteredIpPools);
+    setAvailableIpPools(filteredIpPools);
     setSelectedIPPool(filteredIpPools[0]);
   }, [allZoneSwitchRecords]);
 
+  // updates selected
+  useEffect(() => {
+    setSelectedIPPool(availableIpPools[0]);
+  }, [availableIpPools]);
+
   function editNetworkSecurityZoneInfo(id, ipPool) {
+    // check there are no duplicate ipPool(s)
+    // what happens when someone is editing the ip pool? does it become a new one or does it override the existing one?
     setNetworkSecurityZonesList(
       networkSecurityZonesList.map((zoneObj) => {
         if (zoneObj.id === id) {
@@ -66,17 +74,23 @@ function App() {
   }
 
   function deleteNetworkSecurityZoneInfo(id) {
+    let newAvailableIPPool;
     setNetworkSecurityZonesList(
-      networkSecurityZonesList.filter((zoneObj) => zoneObj.id !== id)
+      networkSecurityZonesList.filter((zoneObj) => {
+        if (zoneObj.id === id) newAvailableIPPool = zoneObj.ipPool;
+        return zoneObj.id !== id;
+      })
     );
+    setAvailableIpPools([...availableIpPools, newAvailableIPPool]);
   }
 
-  function validateIpPool(ipPool) {
-    console.log("hi", ipPool);
-  }
   function addNewNetworkSecurityZones(name, ipPool) {
-    // needs to be a safe guard that ip pool doesn't match with a previously existing one in case user decides to custome type something in
-    validateIpPool(ipPool);
+    // removes from available ip pools
+    setAvailableIpPools(
+      availableIpPools.filter((ip_pool) => ip_pool !== ipPool)
+    );
+
+    // adds to matching zones/ip pools list
     setNetworkSecurityZonesList([
       ...networkSecurityZonesList,
       {
@@ -121,7 +135,7 @@ function App() {
           </ul>
           <AddCards
             names={names}
-            ipPools={ipPools}
+            availableIpPools={availableIpPools}
             selectedName={selectedName}
             selectedIPPool={selectedIPPool}
             setSelectedIPPool={setSelectedIPPool}
@@ -141,6 +155,22 @@ function App() {
 export default hot(App);
 
 /**
+ - i guess they're editing the label, not the id right??!?!?!
+
+
   - every time a user chooses an ip pool to add, it has to be taken out of the "choose from" list
   - whenever they change or delete an established ip pool, it has to go back to the filtered list
+
+  forget the editing part for now
+  - when ever an ip pool from the available list gets added, remove it from
+  that list
+
+
+
+  questions to ask Jon:
+    - does editing an ip pool name create a new one or override
+    the existing one?
+
+  do you want the edit to be a drop down of available free ones?
+  no that's stupid, you can't just "create a new ip pool"
  */

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const AddCards = ({
   names,
-  ipPools,
+  availableIpPools,
   selectedName,
   selectedIPPool,
   setSelectedIPPool,
@@ -73,7 +73,7 @@ export const AddCards = ({
                 value={selectedIPPool}
                 onChange={handleIPPoolChange}
               >
-                {ipPools.map((ipPool) => (
+                {availableIpPools.map((ipPool) => (
                   <MenuItem
                     key={ipPool}
                     value={ipPool}
