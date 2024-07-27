@@ -17,17 +17,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const AddCards = ({
-  names,
+  zoneLabels,
   availableIpPools,
-  selectedName,
+  selectedZoneLabel,
   selectedIPPool,
   setSelectedIPPool,
-  setSelectedName,
+  setSelectedZoneLabel,
   addNewNetworkSecurityZones,
 }) => {
   const classes = useStyles();
   function handleNameChange(event) {
-    setSelectedName(event.target.value);
+    setSelectedZoneLabel(event.target.value);
   }
   function handleIPPoolChange(event) {
     setSelectedIPPool(event.target.value);
@@ -56,9 +56,9 @@ export const AddCards = ({
                 className="card-text-field"
                 onChange={handleNameChange}
               >
-                {names.map((name) => (
-                  <MenuItem key={name} value={name}>
-                    {name}
+                {zoneLabels.map((label) => (
+                  <MenuItem key={label} value={label}>
+                    {label}
                   </MenuItem>
                 ))}
               </Select>
@@ -95,7 +95,7 @@ export const AddCards = ({
             size="small"
             variant="contained"
             onClick={() =>
-              addNewNetworkSecurityZones(selectedName, selectedIPPool)
+              addNewNetworkSecurityZones(selectedZoneLabel, selectedIPPool)
             }
           >
             + Add New Security Zone

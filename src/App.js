@@ -9,11 +9,11 @@ import { Grid } from "@material-ui/core";
 import axios from "axios";
 
 function App() {
-  const [names, setNames] = useState([]);
+  const [zoneLabels, setZoneLabels] = useState([]);
   const [currSysId, setCurrSysId] = useState("");
   const [allZoneSwitchRecords, setAllZoneSwitchRecords] = useState([]);
   const [availableIpPools, setAvailableIpPools] = useState([]);
-  const [selectedName, setSelectedName] = useState("");
+  const [selectedZoneLabel, setSelectedZoneLabel] = useState("");
   const [selectedIPPool, setSelectedIPPool] = useState("");
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([]);
 
@@ -38,12 +38,12 @@ function App() {
   useEffect(() => {
     const filteredIpPools = [];
     const zonesWithIpPools = [];
-    const zoneLabels = new Set([]);
+    const zoneLabelsList = new Set([]);
 
     allZoneSwitchRecords.forEach((record) => {
       if (record.u_switch.value === currSysId) {
         if (record.u_network_security_zone.display_value)
-          zoneLabels.add(record.u_network_security_zone.display_value);
+          zoneLabelsList.add(record.u_network_security_zone.display_value);
         // record has matching ip pools with network zone names
         if (record.u_network_security_zone && record.u_ip_pool) {
           const newRecordObj = {
@@ -58,7 +58,7 @@ function App() {
         }
       }
     });
-    setNames(Array.from(zoneLabels));
+    setZoneLabels(Array.from(zoneLabelsList));
     setNetworkSecurityZonesList(zonesWithIpPools);
     setAvailableIpPools(filteredIpPools);
     setSelectedIPPool(filteredIpPools[0]);
@@ -67,7 +67,7 @@ function App() {
   // updates selected
   useEffect(() => {
     setSelectedIPPool(availableIpPools[0]);
-    setSelectedName(names[0]);
+    setSelectedZoneLabel(zoneLabels[0]);
   }, [availableIpPools]);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
@@ -144,12 +144,12 @@ function App() {
             })}
           </ul>
           <AddCards
-            names={names}
+            zoneLabels={zoneLabels}
             availableIpPools={availableIpPools}
-            selectedName={selectedName}
+            selectedZoneLabel={selectedZoneLabel}
             selectedIPPool={selectedIPPool}
             setSelectedIPPool={setSelectedIPPool}
-            setSelectedName={setSelectedName}
+            setSelectedZoneLabel={setSelectedZoneLabel}
             addNewNetworkSecurityZones={addNewNetworkSecurityZones}
           />
           <Footer
