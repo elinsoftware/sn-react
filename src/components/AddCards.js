@@ -54,7 +54,6 @@ export const AddCards = ({
               <Select
                 labelId="selected-name"
                 className="card-text-field"
-                value={selectedName}
                 onChange={handleNameChange}
               >
                 {names.map((name) => (
@@ -70,7 +69,6 @@ export const AddCards = ({
               <Select
                 labelId="selected-ip-pool"
                 className="card-text-field"
-                value={selectedIPPool}
                 onChange={handleIPPoolChange}
               >
                 {availableIpPools.map((ipPool) => (

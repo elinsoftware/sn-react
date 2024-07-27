@@ -7,20 +7,20 @@ import "./App.css";
 import { useState } from "react";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
-import { zoneNameToIdMap, names } from "./data/tableData.js";
 
 function App() {
+  const [names, setNames] = useState([]);
   const [currSysId, setCurrSysId] = useState("");
   const [allZoneSwitchRecords, setAllZoneSwitchRecords] = useState([]);
   const [availableIpPools, setAvailableIpPools] = useState([]);
-  const [selectedName, setSelectedName] = useState("Public");
+  const [selectedName, setSelectedName] = useState("");
   const [selectedIPPool, setSelectedIPPool] = useState("");
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([]);
 
   useEffect(() => {
-    setCurrSysId(
-      document.getElementById("document_tags").getAttribute("data-sys_id")
-    );
+    const urlSearchVal = window.location.search;
+    const regex = /sys_id=([a-f0-9]{32})/;
+    setCurrSysId(urlSearchVal.match(regex)[1]);
     axios
       .get(
         "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch",
@@ -35,19 +35,15 @@ function App() {
       });
   }, []);
 
-  /**
-    NOW HAVE ACCESS TO LABELS AND IDS FOR BOTH IP POOL AND NETWORK SECURITY ZONES!
-   */
-
   useEffect(() => {
-    console.log(allZoneSwitchRecords);
-    // THE SELF SYS ID IS PART OF THE URL!
-    // URL: 3D5572960747af0610b27f57f1d16d439a
-    // SYS ID: 5572960747af0610b27f57f1d16d439a
     const filteredIpPools = [];
     const zonesWithIpPools = [];
+    const zoneLabels = new Set([]);
+
     allZoneSwitchRecords.forEach((record) => {
       if (record.u_switch.value === currSysId) {
+        if (record.u_network_security_zone.display_value)
+          zoneLabels.add(record.u_network_security_zone.display_value);
         // record has matching ip pools with network zone names
         if (record.u_network_security_zone && record.u_ip_pool) {
           const newRecordObj = {
@@ -62,6 +58,7 @@ function App() {
         }
       }
     });
+    setNames(Array.from(zoneLabels));
     setNetworkSecurityZonesList(zonesWithIpPools);
     setAvailableIpPools(filteredIpPools);
     setSelectedIPPool(filteredIpPools[0]);
@@ -70,6 +67,7 @@ function App() {
   // updates selected
   useEffect(() => {
     setSelectedIPPool(availableIpPools[0]);
+    setSelectedName(names[0]);
   }, [availableIpPools]);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
