@@ -46,9 +46,9 @@ export const ExistingCard = ({
             className="card-text-field"
             size="small"
             disabled
-            id={zoneObj.id}
+            id={zoneObj.zoneNameId}
             label="Zone Name"
-            defaultValue={zoneObj.name}
+            defaultValue={zoneObj.zoneNameLabel}
             variant="filled"
           />
 
@@ -57,9 +57,9 @@ export const ExistingCard = ({
             onChange={(e) => setNewIPPool(e.target.value)}
             size="small"
             disabled={formDisabled}
-            id={`ip-pool-${zoneObj.id}`}
+            id={`ip-pool-${zoneObj.ipPoolId}`}
             label="IP Pool"
-            defaultValue={zoneObj.ipPool}
+            defaultValue={zoneObj.ipPoolLabel}
             variant={textBoxVariant}
           />
         </div>
