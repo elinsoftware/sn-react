@@ -9,11 +9,11 @@ import { Grid } from "@material-ui/core";
 import axios from "axios";
 
 function App() {
-  const [currSysId, setCurrSysId] = useState("");
-  const [securityZones, setSecurityZones] = useState([]);
-  const [availableIpPools, setAvailableIpPools] = useState([]);
+  const [mySwitchSysId, setMySwitchSysId] = useState("");
   const [allZoneSwitchRecords, setAllZoneSwitchRecords] = useState([]);
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([]);
+  const [securityZones, setSecurityZones] = useState([]);
+  const [availableIpPools, setAvailableIpPools] = useState([]);
 
   useEffect(() => {
     getNetworkSecurityZoneSwitchRecords();
@@ -34,6 +34,7 @@ function App() {
           },
         }
       );
+      console.log("results", resp.data.result);
       setAllZoneSwitchRecords(resp.data.result);
     } catch (err) {
       console.log("err", err);
@@ -43,7 +44,7 @@ function App() {
   function getSelfSwitchId() {
     const urlSearchVal = window.location.search;
     const regex = /sys_id=([a-f0-9]{32})/;
-    setCurrSysId(urlSearchVal.match(regex)[1]);
+    setMySwitchSysId(urlSearchVal.match(regex)[1]);
   }
 
   function setDropDownLists() {
@@ -52,7 +53,7 @@ function App() {
     const securityZoneSet = new Set([]);
 
     allZoneSwitchRecords.forEach((record) => {
-      if (record.u_switch.value === currSysId) {
+      if (record.u_switch.value === mySwitchSysId) {
         if (record.u_network_security_zone.display_value) {
           securityZoneSet.add({
             zoneNameLabel: record.u_network_security_zone.display_value,
@@ -184,5 +185,10 @@ export default hot(App);
 /**
  - fix the delete, add, edit functionalities
 
- - selected zone and pool labels needs to be removed
+ - have to do these per record, cannot update the entire table
+
+ put normally for updating all fields
+ patch, only the info sent
+
+
  */
