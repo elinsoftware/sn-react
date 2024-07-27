@@ -18,14 +18,15 @@ function App() {
   const [networkSecurityZonesList, setNetworkSecurityZonesList] = useState([]);
 
   useEffect(() => {
+    getData();
     const urlSearchVal = window.location.search;
     const regex = /sys_id=([a-f0-9]{32})/;
     setCurrSysId(urlSearchVal.match(regex)[1]);
   }, []);
 
   useEffect(() => {
-    getData();
-  }, [allZoneSwitchRecords.length]);
+    if (allZoneSwitchRecords.length) updateStuff();
+  }, [allZoneSwitchRecords]);
 
   async function getData() {
     try {
@@ -38,8 +39,9 @@ function App() {
         }
       );
       setAllZoneSwitchRecords(resp.data.result);
-      updateStuff();
-    } catch (err) {}
+    } catch (err) {
+      console.log("err", err);
+    }
   }
 
   function updateStuff() {
@@ -47,15 +49,15 @@ function App() {
     const filteredIpPools = [];
     const zonesWithIpPools = [];
     const zoneLabelsList = new Set([]);
-    console.log("all switch recs", allZoneSwitchRecords);
 
     allZoneSwitchRecords.forEach((record) => {
       if (record.u_switch.value === currSysId) {
-        if (record.u_network_security_zone.display_value)
+        if (record.u_network_security_zone.display_value) {
           zoneLabelsList.add({
             zoneNameLabel: record.u_network_security_zone.display_value,
             zoneNameId: record.u_network_security_zone.value,
           });
+        }
         // record has matching ip pools with network zone names
         if (record.u_network_security_zone.value && record.u_ip_pool.value) {
           const newRecordObj = {
@@ -75,6 +77,9 @@ function App() {
       }
     });
 
+    console.log("zone names", Array.from(zoneLabelsList));
+    console.log("full list", zonesWithIpPools);
+    console.log("avail ip pools", filteredIpPools);
     setZoneNames(Array.from(zoneLabelsList));
     setNetworkSecurityZonesList(zonesWithIpPools);
     setAvailableIpPools(filteredIpPools);
