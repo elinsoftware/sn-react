@@ -18,7 +18,7 @@ const names = ["Public", "Hosting", "Management"];
 
 function App() {
   const [currSysId, setCurrSysId] = useState("");
-  const [allZoneSwitchTable, setAllZoneSwitchTable] = useState([]);
+  const [allZoneSwitchRecords, setAllZoneSwitchRecords] = useState([]);
   const [ipPools, setIpPools] = useState([]);
 
   const [selectedName, setSelectedName] = useState(names[0]);
@@ -49,27 +49,36 @@ function App() {
         "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch"
       )
       .then((res) => {
-        setAllZoneSwitchTable(res.data.result);
+        setAllZoneSwitchRecords(res.data.result);
       });
   }, []);
 
   useEffect(() => {
+    /*
+      - have to filter out 3 arrays:
+      - names
+      - ip pools
+      - already combined sets
+    */
     const filteredIpPools = [];
-    for (let i = 0; i < allZoneSwitchTable.length; i++) {
-      const tableObj = allZoneSwitchTable[i];
+    console.log("all records", allZoneSwitchRecords);
+    console.log("map", zoneNameToIdMap);
+    for (let i = 0; i < allZoneSwitchRecords.length; i++) {
+      const tableObj = allZoneSwitchRecords[i];
+      // Only records for current switch
       if (tableObj.u_switch.value === currSysId) {
-        console.log("this one", tableObj);
-      }
-      if (
-        tableObj.u_switch.value === currSysId &&
-        !tableObj.u_network_security_zone
-      ) {
-        filteredIpPools.push(tableObj.u_ip_pool.value);
+        if (tableObj.u_network_security_zone && tableObj.u_ip_pool) {
+          // has both
+          console.log("both network and ip pools", tableObj);
+          // this is where you cross reference the network id to your mapper so that you can put them in existing cards correctly
+        } else if (!tableObj.u_network_security_zone) {
+          filteredIpPools.push(tableObj.u_ip_pool.value);
+        }
       }
     }
     setIpPools(filteredIpPools);
     setSelectedIPPool(filteredIpPools[0]);
-  }, [allZoneSwitchTable]);
+  }, [allZoneSwitchRecords]);
 
   function editNetworkSecurityZoneInfo(id, ipPool) {
     setNetworkSecurityZonesList(
