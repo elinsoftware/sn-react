@@ -73,6 +73,7 @@ export const AddCards = ({
               <Select
                 labelId="selected-ip-pool"
                 className="card-text-field"
+                value={selectedIPPool}
                 onChange={handleIPPoolChange}
               >
                 {availableIpPools.map((ipObj) => (
