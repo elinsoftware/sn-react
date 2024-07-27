@@ -8,7 +8,13 @@ import { useState } from "react";
 import { Grid } from "@material-ui/core";
 import axios from "axios";
 
-const names = ["Public", "Private", "Management"];
+const zoneNameToIdMap = {
+  Hosting: "1f19034247270210b27f57f1d16d43ad",
+  Public: "9b09034247270210b27f57f1d16d43aa",
+  Management: "d529034247270210b27f57f1d16d43b0",
+};
+
+const names = ["Public", "Hosting", "Management"];
 
 function App() {
   const [currSysId, setCurrSysId] = useState("");
@@ -51,6 +57,9 @@ function App() {
     const filteredIpPools = [];
     for (let i = 0; i < allZoneSwitchTable.length; i++) {
       const tableObj = allZoneSwitchTable[i];
+      if (tableObj.u_switch.value === currSysId) {
+        console.log("this one", tableObj);
+      }
       if (
         tableObj.u_switch.value === currSysId &&
         !tableObj.u_network_security_zone
