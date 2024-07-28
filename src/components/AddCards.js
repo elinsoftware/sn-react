@@ -41,22 +41,14 @@ export const AddCards = ({
   const classes = useStyles();
 
   function handleSecurityZoneInfoChange(e) {
-    let matchedZoneInfo;
-    for (let i = 0; i < securityZones.length; i++) {
-      if (securityZones[i].zoneNameId === e.target.value) {
-        matchedZoneInfo = securityZones[i];
-      }
-    }
-    setSelectedSecurityZoneInfo(matchedZoneInfo);
+    setSelectedSecurityZoneInfo(
+      securityZones.find((record) => record.zoneNameId === e.target.value)
+    );
   }
   function handleIpPoolInfoChange(e) {
-    let matchedIpPoolInfo;
-    for (let i = 0; i < availableIpPools.length; i++) {
-      if (availableIpPools[i].ipPoolId === e.target.value) {
-        matchedIpPoolInfo = availableIpPools[i];
-      }
-    }
-    setSelectedIpPoolInfo(matchedIpPoolInfo);
+    setSelectedIpPoolInfo(
+      availableIpPools.find((record) => record.ipPoolId === e.target.value)
+    );
   }
   return (
     <>
