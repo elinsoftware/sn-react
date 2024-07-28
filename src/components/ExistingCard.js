@@ -13,7 +13,6 @@ export const ExistingCard = ({
   const [currNewIpInfo, setCurrNewIpInfo] = useState(record);
 
   function handleEditForm(updatedIpRecord) {
-    console.log("what is this", updatedIpRecord);
     setFormDisabled(!formDisabled);
     if (formDisabled) {
       setEditMode();
@@ -84,7 +83,7 @@ export const ExistingCard = ({
           className="card-button"
           onClick={() => {
             if (formDisabled) {
-              deleteNetworkSecurityZoneInfo(record.id);
+              deleteNetworkSecurityZoneInfo(currNewIpInfo);
             } else {
               setFormDisabled(!formDisabled);
               setDisabledMode();

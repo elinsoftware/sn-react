@@ -85,8 +85,6 @@ function App() {
   }
 
   function editNetworkSecurityZoneInfo(updatedIpRecord) {
-    console.log("edit input clicked");
-    console.log("payload", updatedIpRecord);
     setMatchedZonesAndIpPools(
       matchedZonesAndIpPools.map((record) => {
         if (record.ipPoolId === updatedIpRecord.ipPoolId) {
@@ -97,12 +95,13 @@ function App() {
     );
   }
 
-  function deleteNetworkSecurityZoneInfo(id) {
+  function deleteNetworkSecurityZoneInfo(newIpPoolRecord) {
     let newAvailableIPPool;
     setMatchedZonesAndIpPools(
       matchedZonesAndIpPools.filter((record) => {
-        if (record.ipPoolId === id) newAvailableIPPool = record.ipPool;
-        return record.ipPoolId !== id;
+        if (record.ipPoolId === newIpPoolRecord.ipPoolId)
+          newAvailableIPPool = newIpPoolRecord;
+        return record.ipPoolId !== newIpPoolRecord.ipPoolId;
       })
     );
     setAvailableIpPools([...availableIpPools, newAvailableIPPool]);
