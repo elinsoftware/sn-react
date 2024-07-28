@@ -112,10 +112,6 @@ body {
     width: 200px;
   }
 
-  #ip-pool-drop-down-item {
-    /* width: 250px; */
-  }
-
   #display-selected-ip-pool {
     margin-bottom: 12px;
   }

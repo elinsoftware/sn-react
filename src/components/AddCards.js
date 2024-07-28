@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormControl,
   Button,
@@ -21,33 +21,37 @@ export const AddCards = ({
   availableIpPools,
   addNewNetworkSecurityZones,
 }) => {
-  const [currSecurityZone, setCurrSecurityZone] = useState(
-    securityZones.length
-      ? securityZones[0]
-      : {
-          zoneNameId: "",
-          zoneNameLabel: "",
-        }
-  );
-  const [currIpPool, setCurrIpPool] = useState(
-    availableIpPools.length
-      ? availableIpPools[0]
-      : {
-          ipPoolId: "",
-          ipPoolLabel: "",
-        }
-  );
+  const [selectedSecurityZoneInfo, setSelectedSecurityZoneInfo] = useState({
+    zoneNameLabel: "",
+    zoneNameId: "",
+  });
+  const [selectedIpPoolInfo, setSelectedIpPoolInfo] = useState({
+    ipPoolLabel: "",
+    ipPoolId: "",
+  });
 
+  useEffect(() => {
+    if (securityZones.length) {
+      setSelectedSecurityZoneInfo(securityZones[0]);
+    }
+    if (availableIpPools.length) {
+      setSelectedIpPoolInfo(availableIpPools[0]);
+    }
+  }, [securityZones, availableIpPools]);
   const classes = useStyles();
-  function handleNameChange(event) {
-    setCurrSecurityZone(event.target.value);
+
+  function handleSecurityZoneInfoChange(e) {
+    setSelectedSecurityZoneInfo(e.target.value);
   }
-  function handleIPPoolChange(event) {
-    console.log("event", event.target.value);
-    setCurrIpPool(event.target.value);
+  function handleIpPoolInfoChange(e) {
+    setSelectedIpPoolInfo(e.target.value);
   }
   return (
     <>
+      <p>
+        zone label: {selectedSecurityZoneInfo.zoneNameLabel}
+        ip label: {selectedIpPoolInfo.ipPoolLabel}
+      </p>
       <Grid
         className="card-container"
         container
@@ -68,8 +72,8 @@ export const AddCards = ({
               <Select
                 labelId="selected-name"
                 className="card-text-field"
-                value={currSecurityZone.zoneNameLabel}
-                onChange={handleNameChange}
+                value={selectedSecurityZoneInfo.zoneNameLabel}
+                onChange={handleSecurityZoneInfoChange}
               >
                 {securityZones.map((securityZone) => (
                   <MenuItem
@@ -87,14 +91,14 @@ export const AddCards = ({
               <Select
                 labelId="selected-ip-pool"
                 className="card-text-field"
-                value={currIpPool.ipPoolLabel}
-                onChange={handleIPPoolChange}
+                value={selectedIpPoolInfo.ipPoolLabel}
+                onChange={handleIpPoolInfoChange}
               >
                 {availableIpPools.map((ipObj) => (
                   <MenuItem
                     key={ipObj.ipPoolId}
                     value={ipObj.ipPoolLabel}
-                    id="ip-pool-drop-down-item"
+                    id={ipObj.ipPoolId}
                   >
                     {ipObj.ipPoolLabel}
                   </MenuItem>
@@ -114,7 +118,10 @@ export const AddCards = ({
             size="small"
             variant="contained"
             onClick={() =>
-              addNewNetworkSecurityZones(currSecurityZone, currIpPool)
+              addNewNetworkSecurityZones(
+                selectedSecurityZoneInfo,
+                selectedIpPoolInfo
+              )
             }
           >
             + Add New Security Zone

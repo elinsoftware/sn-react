@@ -79,9 +79,9 @@ function App() {
       }
     });
 
-    console.log("zone names", Array.from(securityZoneSet));
-    console.log("full list", zonesWithIpPools);
-    console.log("avail ip pools", filteredIpPools);
+    // console.log("zone names", Array.from(securityZoneSet));
+    // console.log("full list", zonesWithIpPools);
+    // console.log("avail ip pools", filteredIpPools);
     setSecurityZones(Array.from(securityZoneSet));
     setMatchedZonesAndIpPools(zonesWithIpPools);
     setAvailableIpPools(filteredIpPools);
@@ -113,22 +113,24 @@ function App() {
 
   // THIS NEEDS TO BE FIXED, NEED TO MATCH BY ID NOT LABEL
   // THE WHOLE CHANGE HANDLER NEEDS TO ACCOUNT FOR BOTH LABEL AND IDS OF NAMES AND IP POOLS
-  function addNewNetworkSecurityZones(securityZone, ipPool) {
+  function addNewNetworkSecurityZones(securityZoneInfo, ipPoolInfo) {
+    console.log("zone info ", securityZoneInfo);
+    console.log("ip pool info ", ipPoolInfo);
     // removes from available ip pools
-    setAvailableIpPools(
-      availableIpPools.filter(
-        (ip_pool_label) => ip_pool_label !== ipPool.ipPoolLabel
-      )
-    );
+    // setAvailableIpPools(
+    //   availableIpPools.filter(
+    //     (ip_pool_label) => ip_pool_label !== ipPool.ipPoolLabel
+    //   )
+    // );
 
-    // adds to matching zones/ip pools list
+    // // adds to matching zones/ip pools list
     setMatchedZonesAndIpPools([
       ...matchedZonesAndIpPools,
       {
-        ipPoolLabel: ipPool.ipPoolLabel,
-        ipPoolId: ipPool.ipPoolId,
-        zoneNameLabel: securityZone.zoneNameLabel,
-        zoneNameId: securityZone.zoneNameId,
+        ipPoolLabel: ipPoolInfo.ipPoolLabel,
+        ipPoolId: ipPoolInfo.ipPoolId,
+        zoneNameLabel: securityZoneInfo.zoneNameLabel,
+        zoneNameId: securityZoneInfo.zoneNameId,
       },
     ]);
   }
