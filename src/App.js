@@ -131,8 +131,10 @@ function App() {
   }
 
   function addNewNetworkSecurityZones(securityZoneInfo, ipPoolInfo) {
-    removesSelectedIpPoolInfoFromAvailableSet(ipPoolInfo);
-    addsSelectedZoneAndIpRecordToMatchedPairs(securityZoneInfo, ipPoolInfo);
+    if (securityZoneInfo.zoneNameId && ipPoolInfo.ipPoolId) {
+      removesSelectedIpPoolInfoFromAvailableSet(ipPoolInfo);
+      addsSelectedZoneAndIpRecordToMatchedPairs(securityZoneInfo, ipPoolInfo);
+    }
   }
 
   function submitNetworkSecurityZoneInfo() {
@@ -185,12 +187,13 @@ function App() {
 export default hot(App);
 
 /**
- - fix the delete, add, edit functionalities
-
- - have to do these per record, cannot update the entire table
-
  put normally for updating all fields
  patch, only the info sent
 
+ do you want it to persist on cancel or to refresh?
+
+ fix add func - keeps adding
+
+ want a warning that there are no more ip pools to add
 
  */

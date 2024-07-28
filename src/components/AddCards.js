@@ -36,6 +36,11 @@ export const AddCards = ({
     }
     if (availableIpPools.length) {
       setSelectedIpPoolInfo(availableIpPools[0]);
+    } else {
+      setSelectedIpPoolInfo({
+        ipPoolLabel: "",
+        ipPoolId: "",
+      });
     }
   }, [securityZones, availableIpPools]);
   const classes = useStyles();
@@ -76,6 +81,7 @@ export const AddCards = ({
                   name: selectedSecurityZoneInfo.zoneNameLabel,
                   value: selectedSecurityZoneInfo.zoneNameId,
                 }}
+                disabled={!selectedIpPoolInfo.ipPoolId}
               >
                 {securityZones.map((securityZone) => (
                   <MenuItem
@@ -98,6 +104,7 @@ export const AddCards = ({
                   name: selectedIpPoolInfo.ipPoolLabel,
                   value: selectedIpPoolInfo.ipPoolId,
                 }}
+                disabled={!selectedIpPoolInfo.ipPoolId}
               >
                 {availableIpPools.map((ipObj) => (
                   <MenuItem
@@ -111,6 +118,11 @@ export const AddCards = ({
               </Select>
             </FormControl>
           </Grid>
+          <div>
+            {!selectedIpPoolInfo.ipPoolId ? (
+              <p>There are no more available ip pool records</p>
+            ) : null}
+          </div>
         </div>
         <Grid
           container
