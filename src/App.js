@@ -84,13 +84,13 @@ function App() {
     setAvailableIpPools(filteredIpPools);
   }
 
-  function editNetworkSecurityZoneInfo(id, ipPool) {
-    // check there are no duplicate ipPool(s)
-    // what happens when someone is editing the ip pool? does it become a new one or does it override the existing one?
+  function editNetworkSecurityZoneInfo(updatedIpRecord) {
+    console.log("edit input clicked");
+    console.log("payload", updatedIpRecord);
     setMatchedZonesAndIpPools(
       matchedZonesAndIpPools.map((record) => {
-        if (record.ipPoolId === id) {
-          record.ipPoolLabel = ipPool;
+        if (record.ipPoolId === updatedIpRecord.ipPoolId) {
+          record.ipPoolLabel = updatedIpRecord.ipPoolLabel;
         }
         return record;
       })

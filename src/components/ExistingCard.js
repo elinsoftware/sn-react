@@ -10,14 +10,15 @@ export const ExistingCard = ({
   const [textBoxVariant, setTextBoxVariant] = useState("filled");
   const [editButtonText, setEditButtonText] = useState("Edit");
   const [removeButtonText, setRemoveButtonText] = useState("Remove");
-  const [newIPPool, setNewIPPool] = useState(record.ipPool);
+  const [currNewIpInfo, setCurrNewIpInfo] = useState(record);
 
-  function handleEditForm(ipPool) {
+  function handleEditForm(updatedIpRecord) {
+    console.log("what is this", updatedIpRecord);
     setFormDisabled(!formDisabled);
     if (formDisabled) {
       setEditMode();
     } else {
-      editNetworkSecurityZoneInfo(record.id, ipPool);
+      editNetworkSecurityZoneInfo(updatedIpRecord);
       setDisabledMode();
     }
   }
@@ -31,6 +32,13 @@ export const ExistingCard = ({
     setTextBoxVariant("filled");
     setEditButtonText("Edit");
     setRemoveButtonText("Remove");
+  }
+
+  function handleIpLabelChange(e) {
+    setCurrNewIpInfo({
+      ...record,
+      ipPoolLabel: e.target.value,
+    });
   }
   return (
     <>
@@ -54,10 +62,10 @@ export const ExistingCard = ({
 
           <TextField
             className="card-text-field"
-            onChange={(e) => setNewIPPool(e.target.value)}
+            onChange={handleIpLabelChange}
             size="small"
             disabled={formDisabled}
-            id={`ip-pool-${record.ipPoolId}`}
+            id={record.ipPoolId}
             label="IP Pool"
             defaultValue={record.ipPoolLabel}
             variant={textBoxVariant}
@@ -66,7 +74,7 @@ export const ExistingCard = ({
 
         <Button
           className="card-button"
-          onClick={() => handleEditForm(newIPPool)}
+          onClick={() => handleEditForm(currNewIpInfo)}
           variant="contained"
           size="small"
         >
