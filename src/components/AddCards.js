@@ -3,9 +3,9 @@ import {
   FormControl,
   Button,
   Grid,
-  Select,
   MenuItem,
   InputLabel,
+  Select,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -41,17 +41,25 @@ export const AddCards = ({
   const classes = useStyles();
 
   function handleSecurityZoneInfoChange(e) {
-    setSelectedSecurityZoneInfo(e.target.value);
+    let matchedZoneInfo;
+    for (let i = 0; i < securityZones.length; i++) {
+      if (securityZones[i].zoneNameId === e.target.value) {
+        matchedZoneInfo = securityZones[i];
+      }
+    }
+    setSelectedSecurityZoneInfo(matchedZoneInfo);
   }
   function handleIpPoolInfoChange(e) {
-    setSelectedIpPoolInfo(e.target.value);
+    let matchedIpPoolInfo;
+    for (let i = 0; i < availableIpPools.length; i++) {
+      if (availableIpPools[i].ipPoolId === e.target.value) {
+        matchedIpPoolInfo = availableIpPools[i];
+      }
+    }
+    setSelectedIpPoolInfo(matchedIpPoolInfo);
   }
   return (
     <>
-      <p>
-        zone label: {selectedSecurityZoneInfo.zoneNameLabel}
-        ip label: {selectedIpPoolInfo.ipPoolLabel}
-      </p>
       <Grid
         className="card-container"
         container
@@ -70,15 +78,18 @@ export const AddCards = ({
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel htmlFor="selected-name">Zone Name</InputLabel>
               <Select
-                labelId="selected-name"
-                className="card-text-field"
                 value={selectedSecurityZoneInfo.zoneNameLabel}
                 onChange={handleSecurityZoneInfoChange}
+                inputProps={{
+                  name: selectedSecurityZoneInfo.zoneNameLabel,
+                  value: selectedSecurityZoneInfo.zoneNameId,
+                }}
               >
                 {securityZones.map((securityZone) => (
                   <MenuItem
                     key={securityZone.zoneNameId}
-                    value={securityZone.zoneNameLabel}
+                    value={securityZone.zoneNameId}
+                    name={securityZone.zoneNameLabel}
                   >
                     {securityZone.zoneNameLabel}
                   </MenuItem>
@@ -89,16 +100,18 @@ export const AddCards = ({
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel htmlFor="selected-ip-pool">IP Pool</InputLabel>
               <Select
-                labelId="selected-ip-pool"
-                className="card-text-field"
                 value={selectedIpPoolInfo.ipPoolLabel}
                 onChange={handleIpPoolInfoChange}
+                inputProps={{
+                  name: selectedIpPoolInfo.ipPoolLabel,
+                  value: selectedIpPoolInfo.ipPoolId,
+                }}
               >
                 {availableIpPools.map((ipObj) => (
                   <MenuItem
                     key={ipObj.ipPoolId}
-                    value={ipObj.ipPoolLabel}
-                    id={ipObj.ipPoolId}
+                    value={ipObj.ipPoolId}
+                    name={ipObj.ipPoolLabel}
                   >
                     {ipObj.ipPoolLabel}
                   </MenuItem>

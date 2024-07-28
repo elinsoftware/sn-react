@@ -108,15 +108,18 @@ function App() {
     setAvailableIpPools([...availableIpPools, newAvailableIPPool]);
   }
 
-  function addNewNetworkSecurityZones(securityZoneInfo, ipPoolInfo) {
-    // removes from available ip pools
+  function removesSelectedIpPoolInfoFromAvailableSet(ipPoolInfo) {
     setAvailableIpPools(
       availableIpPools.filter(
         (ipPoolRecord) => ipPoolRecord.ipPoolId !== ipPoolInfo.ipPoolId
       )
     );
+  }
 
-    // // adds to matching zones/ip pools list
+  function addsSelectedZoneAndIpRecordToMatchedPairs(
+    securityZoneInfo,
+    ipPoolInfo
+  ) {
     setMatchedZonesAndIpPools([
       ...matchedZonesAndIpPools,
       {
@@ -126,6 +129,11 @@ function App() {
         zoneNameId: securityZoneInfo.zoneNameId,
       },
     ]);
+  }
+
+  function addNewNetworkSecurityZones(securityZoneInfo, ipPoolInfo) {
+    removesSelectedIpPoolInfoFromAvailableSet(ipPoolInfo);
+    addsSelectedZoneAndIpRecordToMatchedPairs(securityZoneInfo, ipPoolInfo);
   }
 
   function submitNetworkSecurityZoneInfo() {
