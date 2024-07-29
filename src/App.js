@@ -126,10 +126,31 @@ function App() {
 
   async function submitNetworkSecurityZoneInfo() {
     try {
+      console.log("matched", matchedZonesAndIpPools);
+      console.log("avail", availableIpPools);
+      const newAvailIps = [];
+      // find all sys ids
+      for (let i = 0; i < allZoneSwitchRecords.length; i++) {
+        for (let j = 0; j < availableIpPools.length; j++) {
+          if (
+            availableIpPools[j].value ===
+            allZoneSwitchRecords[i].u_ip_pool.value
+          ) {
+            newAvailIps.push({
+              u_ip_pool: availableIpPools[j],
+              sys_id: allZoneSwitchRecords[i].sys_id.value,
+            });
+          }
+        }
+      }
+
+      console.log("lollllll", newAvailIps);
+
       const res = await axios.post(
         "https://dev220672.service-now.com/api/1473863/network_security_zone_switches_update",
         {
-          records: matchedZonesAndIpPools,
+          matched_records: matchedZonesAndIpPools,
+          available_ips: newAvailIps,
         }
       );
       console.log("res", res.data.result);
@@ -185,6 +206,8 @@ export default hot(App);
 
 /**
   search filter
+
+  IF YOU DELETE OR DECOUPLE, YOU NEED TO UPDATE THAT TOO!
 
  do you want it to persist on cancel or to refresh?
  */
