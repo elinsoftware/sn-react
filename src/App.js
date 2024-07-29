@@ -105,17 +105,16 @@ function App() {
   }
 
   function addsSelectedZoneAndIpRecordToMatchedPairs(ipPoolInfo) {
-    console.log("incoming info", ipPoolInfo);
-    const match = allZoneSwitchRecords.find(
-      (record) => record.u_ip_pool.value === ipPoolInfo.value
-    );
-    console.log("found match", match);
-    setMatchedZonesAndIpPools([...matchedZonesAndIpPools, match]);
+    setMatchedZonesAndIpPools([
+      ...matchedZonesAndIpPools,
+      allZoneSwitchRecords.find(
+        (record) => record.u_ip_pool.value === ipPoolInfo.value
+      ),
+    ]);
   }
 
   function addNewNetworkSecurityZones(ipPool) {
     if (ipPool.value) {
-      console.log("yo");
       removesSelectedIpPoolInfoFromAvailableSet(ipPool);
       addsSelectedZoneAndIpRecordToMatchedPairs(ipPool);
     }
