@@ -14,6 +14,7 @@ function App() {
   const [matchedZonesAndIpPools, setMatchedZonesAndIpPools] = useState([]);
   const [allSecurityZones, setAllSecurityZones] = useState([]);
   const [availableIpPools, setAvailableIpPools] = useState([]);
+  const [formDisabled, setFormDisabled] = useState(true);
 
   useEffect(() => {
     getNetworkSecurityRecords();
@@ -187,6 +188,8 @@ function App() {
                 <ExistingCard
                   key={record.u_ip_pool.value}
                   record={record}
+                  formDisabled={formDisabled}
+                  setFormDisabled={setFormDisabled}
                   updateIpPoolDisplayValue={updateIpPoolDisplayValue}
                   deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
                 />
@@ -211,6 +214,11 @@ function App() {
 export default hot(App);
 
 /**
+
+  - SHOULD NOT BE ABLE TO SUBMIT IF STILL IN EDIT MODE
+
+  - dont display label on security zones if no more ip pools left
+
   search filter
 
   - double check if it was the right decision to independently query the security zone table

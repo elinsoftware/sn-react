@@ -38,7 +38,6 @@ export const AddCards = ({
   useEffect(() => {
     if (allSecurityZones.length) {
       setSelectedSecurityZone(allSecurityZones[0]);
-      console.log("jeifjeif", selectedSecurityZone);
     }
     if (availableIpPools.length) {
       setSelectedIpPoolInfo(availableIpPools[0]);
@@ -72,6 +71,7 @@ export const AddCards = ({
         justifyContent="center"
         alignItems="center"
       >
+        {!selectedIpPoolInfo.value ? <p>No more Ip Pools</p> : null}
         <div className="card-text-container">
           <Grid
             className="card-container"
@@ -126,11 +126,6 @@ export const AddCards = ({
               </Select>
             </FormControl>
           </Grid>
-          <div>
-            {!selectedIpPoolInfo.value ? (
-              <p>There are no more available ip pool records</p>
-            ) : null}
-          </div>
         </div>
         <Grid
           container
