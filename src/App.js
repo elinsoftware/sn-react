@@ -215,6 +215,25 @@ function App() {
 export default hot(App);
 
 /**
+  [
+    {
+      u_name: {
+        display_value: "1",
+      },
+      sys_id: {
+        value: "1",
+      }
+    },
+    {
+      u_name: {
+        display_value: "2",
+      },
+      sys_id: {
+        value: "2",
+      }
+    },
+  ]
+
 
   - dont display label on security zones if no more ip pools left
 

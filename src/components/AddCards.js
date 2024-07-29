@@ -6,8 +6,10 @@ import {
   MenuItem,
   InputLabel,
   Select,
+  TextField,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -34,6 +36,26 @@ export const AddCards = ({
     link: "",
     value: "",
   });
+  const [inputValue, setInputValue] = React.useState("");
+
+  function handleOnChange(e, newVal) {
+    if (newVal) {
+      setSelectedSecurityZone({
+        u_name: {
+          display_value: newVal.u_name.display_value,
+        },
+        sys_id: {
+          value: newVal.sys_id.value,
+        },
+      });
+    }
+  }
+
+  function handleInputChange(e, newInputVal) {
+    if (newInputVal) {
+      setInputValue(newInputVal);
+    }
+  }
 
   useEffect(() => {
     if (allSecurityZones.length) {
@@ -50,12 +72,6 @@ export const AddCards = ({
     }
   }, [availableIpPools, allSecurityZones]);
   const classes = useStyles();
-
-  function handleSecurityZoneInfoChange(e) {
-    setSelectedSecurityZone(
-      allSecurityZones.find((record) => record.sys_id.value === e.target.value)
-    );
-  }
 
   function handleIpPoolInfoChange(e) {
     setSelectedIpPoolInfo(
@@ -80,28 +96,28 @@ export const AddCards = ({
             justifyContent="center"
             alignItems="center"
           >
-            <FormControl variant="outlined" className={classes.formControl}>
-              <InputLabel htmlFor="selected-name">Zone Name</InputLabel>
-              <Select
-                value={selectedSecurityZone.u_name.display_value}
-                onChange={handleSecurityZoneInfoChange}
-                inputProps={{
-                  name: selectedSecurityZone.u_name.display_value,
-                  value: selectedSecurityZone.sys_id.value,
-                }}
-                disabled={!selectedIpPoolInfo.value}
-              >
-                {allSecurityZones.map((securityZone) => (
-                  <MenuItem
-                    key={securityZone.sys_id.value}
-                    value={securityZone.sys_id.value}
-                    name={securityZone.u_name.display_value}
-                  >
-                    {securityZone.u_name.display_value}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Autocomplete
+              value={selectedSecurityZone} // This should be the full object, not just display_value
+              onChange={(event, newValue) => {
+                handleOnChange(event, newValue);
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                handleInputChange(event, newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={allSecurityZones}
+              getOptionLabel={(option) => option.u_name.display_value} // Specify how to display each option
+              style={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  InputProps={{ ...params.InputProps }}
+                  label="Controllable"
+                  variant="outlined"
+                />
+              )}
+            />
 
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel htmlFor="selected-ip-pool">IP Pool</InputLabel>
