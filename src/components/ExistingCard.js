@@ -3,21 +3,34 @@ import { Button, Grid, TextField } from "@material-ui/core";
 
 export const ExistingCard = ({
   record,
-  editNetworkSecurityZoneInfo,
+  updateIpPoolDisplayValue,
   deleteNetworkSecurityZoneInfo,
 }) => {
   const [formDisabled, setFormDisabled] = useState(true);
   const [textBoxVariant, setTextBoxVariant] = useState("filled");
   const [editButtonText, setEditButtonText] = useState("Edit");
   const [removeButtonText, setRemoveButtonText] = useState("Remove");
-  const [currNewIpInfo, setCurrNewIpInfo] = useState(record);
+  const [currNewIpInfo, setCurrNewIpInfo] = useState(record.u_ip_pool);
 
+  /*
+    {
+      u_network_security_zone: {
+        display_value: "",
+        value: ""
+      },
+      u_ip_pool: {
+        display_value: "",
+        value: ""
+      }
+    }
+  */
   function handleEditForm(updatedIpRecord) {
     setFormDisabled(!formDisabled);
     if (formDisabled) {
       setEditMode();
     } else {
-      editNetworkSecurityZoneInfo(updatedIpRecord);
+      // on save
+      updateIpPoolDisplayValue(updatedIpRecord);
       setDisabledMode();
     }
   }
@@ -35,8 +48,8 @@ export const ExistingCard = ({
 
   function handleIpLabelChange(e) {
     setCurrNewIpInfo({
-      ...record,
-      ipPoolLabel: e.target.value,
+      ...record.u_ip_pool,
+      display_value: e.target.value,
     });
   }
   return (
@@ -53,9 +66,9 @@ export const ExistingCard = ({
             className="card-text-field"
             size="small"
             disabled
-            id={record.zoneNameId}
+            id={record.u_network_security_zone.value}
             label="Zone Name"
-            defaultValue={record.zoneNameLabel}
+            defaultValue={record.u_network_security_zone.display_value}
             variant="filled"
           />
 
@@ -64,9 +77,9 @@ export const ExistingCard = ({
             onChange={handleIpLabelChange}
             size="small"
             disabled={formDisabled}
-            id={record.ipPoolId}
+            id={record.u_ip_pool.value}
             label="IP Pool"
-            defaultValue={record.ipPoolLabel}
+            defaultValue={record.u_ip_pool.display_value}
             variant={textBoxVariant}
           />
         </div>

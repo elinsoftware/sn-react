@@ -54,6 +54,8 @@ function App() {
 
     allZoneSwitchRecords.forEach((record) => {
       if (record.u_switch.value === mySwitchSysId) {
+        console.log("RECORD", record);
+        // security zone info only
         if (record.u_network_security_zone.display_value) {
           securityZoneSet.add({
             zoneNameLabel: record.u_network_security_zone.display_value,
@@ -62,15 +64,16 @@ function App() {
         }
         // record has matching ip pools with network zone names
         if (record.u_network_security_zone.value && record.u_ip_pool.value) {
-          const newRecordObj = {
-            zoneNameLabel: record.u_network_security_zone.display_value,
-            zoneNameId: record.u_network_security_zone.value,
-            ipPoolId: record.u_ip_pool.value,
-            ipPoolLabel: record.u_ip_pool.display_value,
-          };
-          zonesWithIpPools.push(newRecordObj);
+          // const newRecordObj = {
+          //   zoneNameLabel: record.u_network_security_zone.display_value,
+          //   zoneNameId: record.u_network_security_zone.value,
+          //   ipPoolId: record.u_ip_pool.value,
+          //   ipPoolLabel: record.u_ip_pool.display_value,
+          // };
+          // zonesWithIpPools.push(newRecordObj);
+          zonesWithIpPools.push(record);
         } else if (!record.u_network_security_zone.value) {
-          // record has only ip pools
+          // ip pool info only
           filteredIpPools.push({
             ipPoolId: record.u_ip_pool.value,
             ipPoolLabel: record.u_ip_pool.display_value,
@@ -84,11 +87,11 @@ function App() {
     setAvailableIpPools(filteredIpPools);
   }
 
-  function editNetworkSecurityZoneInfo(updatedIpRecord) {
+  function updateIpPoolDisplayValue(updatedIpRecord) {
     setMatchedZonesAndIpPools(
       matchedZonesAndIpPools.map((record) => {
-        if (record.ipPoolId === updatedIpRecord.ipPoolId) {
-          record.ipPoolLabel = updatedIpRecord.ipPoolLabel;
+        if (record.u_ip_pool.value === updatedIpRecord.value) {
+          record.u_ip_pool.display_value = updatedIpRecord.display_value;
         }
         return record;
       })
@@ -137,10 +140,45 @@ function App() {
     }
   }
 
+  // async function UpdateNetworkSecuritySwitchRecord() {
+  //   try {
+  //     /*
+  //     FILTERED LIST NEEDS TO BE REINTEGRATED INTO ALL LIST
+  //     OR ACTUALLY THE FILTERING HAS TO INCLUDE THE ENTIRE RECORD INFO
+
+  //       guessing you don't want to update the whole table but patch
+  //       all existing records with changes
+
+  //       AS OF NOW changes would include:
+  //       - ip pool label changes
+  //         - this is a patch
+  //       - un matched pool being connected to a zone
+  //       - matched pool being disconnected to a zone
+  //       - matched pool being reassigned to a new zone
+
+  //       wait isn't everything updated as is?
+  //     */
+
+  //     // const tableName = "u_network_security_zone_switch";
+  //     // const sysId = ""
+  //     // const resp = await axios.put(
+  //     //   `https://dev220672.service-now.com/api/now/table/{tableName}/{sys_id}`,
+  //     //   {
+  //     //     params: {
+  //     //       sysparm_display_value: "all",
+  //     //     },
+  //     //   }
+  //     // );
+  //     closeModal();
+  //   } catch (e) {
+  //     console.log("e", e);
+  //   }
+  // }
+
   function submitNetworkSecurityZoneInfo() {
     console.log("submit and close modal");
-    const closeModalButton = document.getElementById("react-test_closemodal");
-    closeModalButton.click();
+
+    // UpdateNetworkSecuritySwitchRecord();
   }
 
   function closeModal() {
@@ -163,7 +201,7 @@ function App() {
                 <ExistingCard
                   key={record.ipPoolId}
                   record={record}
-                  editNetworkSecurityZoneInfo={editNetworkSecurityZoneInfo}
+                  updateIpPoolDisplayValue={updateIpPoolDisplayValue}
                   deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
                 />
               );
@@ -191,9 +229,4 @@ export default hot(App);
  patch, only the info sent
 
  do you want it to persist on cancel or to refresh?
-
- fix add func - keeps adding
-
- want a warning that there are no more ip pools to add
-
  */
