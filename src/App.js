@@ -4,7 +4,7 @@ import { ExistingCard } from "./components/ExistingCard.js";
 import { Footer } from "./components/Footer.js";
 import { AddCards } from "./components/AddCards.js";
 import {
-  getNetworkSecurityRecords,
+  getNetworkSecurityZoneRecords,
   getNetworkSecurityZoneSwitchRecords,
   UpdateNetworkSecurityZoneSwitchRecords,
 } from "./api/api.js";
@@ -21,7 +21,7 @@ function App() {
   const [inEditMode, setInEditMode] = useState(0);
 
   useEffect(() => {
-    getNetworkSecurityRecords(setAllSecurityZones);
+    getNetworkSecurityZoneRecords(setAllSecurityZones);
     getNetworkSecurityZoneSwitchRecords(setAllZoneSwitchRecords);
     getSelfSwitchId();
   }, []);

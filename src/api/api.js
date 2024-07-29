@@ -1,15 +1,13 @@
 import axios from "axios";
+import { ENDPOINTS } from "./endpoints";
 
-export async function getNetworkSecurityRecords(setAllSecurityZones) {
+export async function getNetworkSecurityZoneRecords(setAllSecurityZones) {
   try {
-    const res = await axios.get(
-      "https://dev220672.service-now.com/api/now/table/u_cmdb_ci_network_security_zone",
-      {
-        params: {
-          sysparm_display_value: "all",
-        },
-      }
-    );
+    const res = await axios.get(ENDPOINTS.GET_NETWORK_SECURITY_ZONE_RECORDS, {
+      params: {
+        sysparm_display_value: "all",
+      },
+    });
 
     console.log("network security zone records", res.data.result);
     setAllSecurityZones(res.data.result);
@@ -23,7 +21,7 @@ export async function getNetworkSecurityZoneSwitchRecords(
 ) {
   try {
     const resp = await axios.get(
-      "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch",
+      ENDPOINTS.GET_NETWORK_SECURITY_ZONE_SWITCH_RECORDS,
       {
         params: {
           sysparm_display_value: "all",
@@ -44,14 +42,13 @@ export async function UpdateNetworkSecurityZoneSwitchRecords(
 ) {
   try {
     const availIpWithSysIds = getSysIdsForAvailIps();
+    console.log("yo?", availIpWithSysIds);
+    console.log("matched stuff", matchedZonesAndIpPools);
 
-    await axios.post(
-      "https://dev220672.service-now.com/api/1473863/network_security_zone_switches_update",
-      {
-        matched_records: matchedZonesAndIpPools,
-        available_ips: availIpWithSysIds,
-      }
-    );
+    await axios.post(ENDPOINTS.UPDATE_NETWORK_SECURITY_ZONE_SWITCH_RECORDS, {
+      matched_records: matchedZonesAndIpPools,
+      available_ips: availIpWithSysIds,
+    });
     closeModal();
   } catch (e) {
     console.error("e", e);
