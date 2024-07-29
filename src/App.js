@@ -126,8 +126,6 @@ function App() {
 
   async function submitNetworkSecurityZoneInfo() {
     try {
-      console.log("matched", matchedZonesAndIpPools);
-      console.log("avail", availableIpPools);
       const newAvailIps = [];
       // find all sys ids
       for (let i = 0; i < allZoneSwitchRecords.length; i++) {
@@ -144,8 +142,6 @@ function App() {
         }
       }
 
-      console.log("lollllll", newAvailIps);
-
       const res = await axios.post(
         "https://dev220672.service-now.com/api/1473863/network_security_zone_switches_update",
         {
@@ -153,7 +149,6 @@ function App() {
           available_ips: newAvailIps,
         }
       );
-      console.log("res", res.data.result);
       closeModal();
     } catch (e) {
       console.log("e", e);
