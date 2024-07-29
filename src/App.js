@@ -142,7 +142,7 @@ function App() {
         }
       }
 
-      const res = await axios.post(
+      await axios.post(
         "https://dev220672.service-now.com/api/1473863/network_security_zone_switches_update",
         {
           matched_records: matchedZonesAndIpPools,
