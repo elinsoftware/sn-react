@@ -136,29 +136,32 @@ function App() {
     }
   }
 
-  async function submitNetworkSecurityZoneInfo() {
-    try {
-      const newAvailIps = [];
-      // find all sys ids
-      for (let i = 0; i < allZoneSwitchRecords.length; i++) {
-        for (let j = 0; j < availableIpPools.length; j++) {
-          if (
-            availableIpPools[j].value ===
-            allZoneSwitchRecords[i].u_ip_pool.value
-          ) {
-            newAvailIps.push({
-              u_ip_pool: availableIpPools[j],
-              sys_id: allZoneSwitchRecords[i].sys_id.value,
-            });
-          }
+  function getSysIdsForAvailIps() {
+    const newAvailIps = [];
+    for (let i = 0; i < allZoneSwitchRecords.length; i++) {
+      for (let j = 0; j < availableIpPools.length; j++) {
+        if (
+          availableIpPools[j].value === allZoneSwitchRecords[i].u_ip_pool.value
+        ) {
+          newAvailIps.push({
+            u_ip_pool: availableIpPools[j],
+            sys_id: allZoneSwitchRecords[i].sys_id.value,
+          });
         }
       }
+    }
+    return newAvailIps;
+  }
+
+  async function submitNetworkSecurityZoneInfo() {
+    try {
+      const availIpWithSysIds = getSysIdsForAvailIps();
 
       await axios.post(
         "https://dev220672.service-now.com/api/1473863/network_security_zone_switches_update",
         {
           matched_records: matchedZonesAndIpPools,
-          available_ips: newAvailIps,
+          available_ips: availIpWithSysIds,
         }
       );
       closeModal();
@@ -215,6 +218,8 @@ function App() {
 export default hot(App);
 
 /**
+
+  - 
 
   - double check if it was the right decision to independently query the security zone table
 
