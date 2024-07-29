@@ -3,10 +3,14 @@ import { hot } from "react-hot-loader/root";
 import { ExistingCard } from "./components/ExistingCard.js";
 import { Footer } from "./components/Footer.js";
 import { AddCards } from "./components/AddCards.js";
+import {
+  getNetworkSecurityRecords,
+  getNetworkSecurityZoneSwitchRecords,
+  UpdateNetworkSecurityZoneSwitchRecords,
+} from "./api/api.js";
 import "./App.css";
 import { useState } from "react";
 import { Grid } from "@material-ui/core";
-import axios from "axios";
 
 function App() {
   const [mySwitchSysId, setMySwitchSysId] = useState("");
@@ -17,49 +21,14 @@ function App() {
   const [inEditMode, setInEditMode] = useState(0);
 
   useEffect(() => {
-    getNetworkSecurityRecords();
-    getNetworkSecurityZoneSwitchRecords();
+    getNetworkSecurityRecords(setAllSecurityZones);
+    getNetworkSecurityZoneSwitchRecords(setAllZoneSwitchRecords);
     getSelfSwitchId();
   }, []);
 
   useEffect(() => {
     if (allZoneSwitchRecords.length) setDropDownLists();
   }, [allZoneSwitchRecords]);
-
-  async function getNetworkSecurityRecords() {
-    try {
-      const res = await axios.get(
-        "https://dev220672.service-now.com/api/now/table/u_cmdb_ci_network_security_zone",
-        {
-          params: {
-            sysparm_display_value: "all",
-          },
-        }
-      );
-
-      console.log("network security zone records", res.data.result);
-      setAllSecurityZones(res.data.result);
-    } catch (e) {
-      console.error("e", e);
-    }
-  }
-
-  async function getNetworkSecurityZoneSwitchRecords() {
-    try {
-      const resp = await axios.get(
-        "https://dev220672.service-now.com/api/now/table/u_network_security_zone_switch",
-        {
-          params: {
-            sysparm_display_value: "all",
-          },
-        }
-      );
-      console.log("results", resp.data.result);
-      setAllZoneSwitchRecords(resp.data.result);
-    } catch (err) {
-      console.error("err", err);
-    }
-  }
 
   function getSelfSwitchId() {
     const urlSearchVal = window.location.search;
@@ -153,22 +122,12 @@ function App() {
     return ipsWithSysIdsList;
   }
 
-  async function submitNetworkSecurityZoneInfo() {
-    try {
-      const availIpWithSysIds = getSysIdsForAvailIps();
-
-      await axios.post(
-        "https://dev220672.service-now.com/api/1473863/network_security_zone_switches_update",
-        {
-          matched_records: matchedZonesAndIpPools,
-          available_ips: availIpWithSysIds,
-        }
-      );
-      closeModal();
-    } catch (e) {
-      console.error("e", e);
-      // add spinner and/warning that there was an error
-    }
+  function submitNetworkSecurityZoneInfo() {
+    UpdateNetworkSecurityZoneSwitchRecords(
+      getSysIdsForAvailIps,
+      closeModal,
+      matchedZonesAndIpPools
+    );
   }
 
   function closeModal() {
