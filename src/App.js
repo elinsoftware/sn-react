@@ -40,7 +40,7 @@ function App() {
       console.log("network security zone records", res.data.result);
       setAllSecurityZones(res.data.result);
     } catch (e) {
-      console.log("e", e);
+      console.error("e", e);
     }
   }
 
@@ -57,7 +57,7 @@ function App() {
       console.log("results", resp.data.result);
       setAllZoneSwitchRecords(resp.data.result);
     } catch (err) {
-      console.log("err", err);
+      console.error("err", err);
     }
   }
 
@@ -166,7 +166,7 @@ function App() {
       );
       closeModal();
     } catch (e) {
-      console.log("e", e);
+      console.error("e", e);
       // add spinner and/warning that there was an error
     }
   }
