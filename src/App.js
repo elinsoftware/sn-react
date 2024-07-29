@@ -57,27 +57,14 @@ function App() {
         console.log("RECORD", record);
         // security zone info only
         if (record.u_network_security_zone.display_value) {
-          securityZoneSet.add({
-            zoneNameLabel: record.u_network_security_zone.display_value,
-            zoneNameId: record.u_network_security_zone.value,
-          });
+          securityZoneSet.add(record.u_network_security_zone);
         }
         // record has matching ip pools with network zone names
         if (record.u_network_security_zone.value && record.u_ip_pool.value) {
-          // const newRecordObj = {
-          //   zoneNameLabel: record.u_network_security_zone.display_value,
-          //   zoneNameId: record.u_network_security_zone.value,
-          //   ipPoolId: record.u_ip_pool.value,
-          //   ipPoolLabel: record.u_ip_pool.display_value,
-          // };
-          // zonesWithIpPools.push(newRecordObj);
           zonesWithIpPools.push(record);
         } else if (!record.u_network_security_zone.value) {
           // ip pool info only
-          filteredIpPools.push({
-            ipPoolId: record.u_ip_pool.value,
-            ipPoolLabel: record.u_ip_pool.display_value,
-          });
+          filteredIpPools.push(record.u_ip_pool);
         }
       }
     });
@@ -99,7 +86,6 @@ function App() {
   }
 
   function deleteNetworkSecurityZoneInfo(newIpPoolRecord) {
-    console.log("ip pool input", newIpPoolRecord);
     // filter ip obj from matched pool
     setMatchedZonesAndIpPools(
       matchedZonesAndIpPools.filter((record) => {
@@ -107,42 +93,31 @@ function App() {
       })
     );
     // add to available pool
-    setAvailableIpPools([
-      ...availableIpPools,
-      {
-        ipPoolId: newIpPoolRecord.value,
-        ipPoolLabel: newIpPoolRecord.display_value,
-      },
-    ]);
+    setAvailableIpPools([...availableIpPools, newIpPoolRecord]);
   }
 
-  function removesSelectedIpPoolInfoFromAvailableSet(ipPoolInfo) {
+  function removesSelectedIpPoolInfoFromAvailableSet(ipPool) {
     setAvailableIpPools(
       availableIpPools.filter(
-        (ipPoolRecord) => ipPoolRecord.ipPoolId !== ipPoolInfo.ipPoolId
+        (ipPoolRecord) => ipPoolRecord.value !== ipPool.value
       )
     );
   }
 
-  function addsSelectedZoneAndIpRecordToMatchedPairs(
-    securityZoneInfo,
-    ipPoolInfo
-  ) {
-    setMatchedZonesAndIpPools([
-      ...matchedZonesAndIpPools,
-      {
-        ipPoolLabel: ipPoolInfo.ipPoolLabel,
-        ipPoolId: ipPoolInfo.ipPoolId,
-        zoneNameLabel: securityZoneInfo.zoneNameLabel,
-        zoneNameId: securityZoneInfo.zoneNameId,
-      },
-    ]);
+  function addsSelectedZoneAndIpRecordToMatchedPairs(ipPoolInfo) {
+    console.log("incoming info", ipPoolInfo);
+    const match = allZoneSwitchRecords.find(
+      (record) => record.u_ip_pool.value === ipPoolInfo.value
+    );
+    console.log("found match", match);
+    setMatchedZonesAndIpPools([...matchedZonesAndIpPools, match]);
   }
 
-  function addNewNetworkSecurityZones(securityZoneInfo, ipPoolInfo) {
-    if (securityZoneInfo.zoneNameId && ipPoolInfo.ipPoolId) {
-      removesSelectedIpPoolInfoFromAvailableSet(ipPoolInfo);
-      addsSelectedZoneAndIpRecordToMatchedPairs(securityZoneInfo, ipPoolInfo);
+  function addNewNetworkSecurityZones(ipPool) {
+    if (ipPool.value) {
+      console.log("yo");
+      removesSelectedIpPoolInfoFromAvailableSet(ipPool);
+      addsSelectedZoneAndIpRecordToMatchedPairs(ipPool);
     }
   }
 

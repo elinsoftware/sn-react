@@ -12,18 +12,6 @@ export const ExistingCard = ({
   const [removeButtonText, setRemoveButtonText] = useState("Remove");
   const [currNewIpInfo, setCurrNewIpInfo] = useState(record.u_ip_pool);
 
-  /*
-    {
-      u_network_security_zone: {
-        display_value: "",
-        value: ""
-      },
-      u_ip_pool: {
-        display_value: "",
-        value: ""
-      }
-    }
-  */
   function handleEditForm(updatedIpRecord) {
     setFormDisabled(!formDisabled);
     if (formDisabled) {

@@ -16,18 +16,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/*
+  {
+    u_network_security_zone: {
+      display_value: "",
+      value: ""
+    },
+    u_ip_pool: {
+      display_value: "",
+      value: ""
+    }
+  }
+*/
+
 export const AddCards = ({
   securityZones,
   availableIpPools,
   addNewNetworkSecurityZones,
 }) => {
   const [selectedSecurityZoneInfo, setSelectedSecurityZoneInfo] = useState({
-    zoneNameLabel: "",
-    zoneNameId: "",
+    display_value: "",
+    link: "",
+    value: "",
   });
   const [selectedIpPoolInfo, setSelectedIpPoolInfo] = useState({
-    ipPoolLabel: "",
-    ipPoolId: "",
+    display_value: "",
+    link: "",
+    value: "",
   });
 
   useEffect(() => {
@@ -38,8 +53,9 @@ export const AddCards = ({
       setSelectedIpPoolInfo(availableIpPools[0]);
     } else {
       setSelectedIpPoolInfo({
-        ipPoolLabel: "",
-        ipPoolId: "",
+        display_value: "",
+        link: "",
+        value: "",
       });
     }
   }, [securityZones, availableIpPools]);
@@ -47,12 +63,12 @@ export const AddCards = ({
 
   function handleSecurityZoneInfoChange(e) {
     setSelectedSecurityZoneInfo(
-      securityZones.find((record) => record.zoneNameId === e.target.value)
+      securityZones.find((record) => record.value === e.target.value)
     );
   }
   function handleIpPoolInfoChange(e) {
     setSelectedIpPoolInfo(
-      availableIpPools.find((record) => record.ipPoolId === e.target.value)
+      availableIpPools.find((record) => record.value === e.target.value)
     );
   }
   return (
@@ -75,21 +91,21 @@ export const AddCards = ({
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel htmlFor="selected-name">Zone Name</InputLabel>
               <Select
-                value={selectedSecurityZoneInfo.zoneNameLabel}
+                value={selectedSecurityZoneInfo.display_value}
                 onChange={handleSecurityZoneInfoChange}
                 inputProps={{
-                  name: selectedSecurityZoneInfo.zoneNameLabel,
-                  value: selectedSecurityZoneInfo.zoneNameId,
+                  name: selectedSecurityZoneInfo.display_value,
+                  value: selectedSecurityZoneInfo.value,
                 }}
-                disabled={!selectedIpPoolInfo.ipPoolId}
+                disabled={!selectedIpPoolInfo.value}
               >
                 {securityZones.map((securityZone) => (
                   <MenuItem
-                    key={securityZone.zoneNameId}
-                    value={securityZone.zoneNameId}
-                    name={securityZone.zoneNameLabel}
+                    key={securityZone.value}
+                    value={securityZone.value}
+                    name={securityZone.display_value}
                   >
-                    {securityZone.zoneNameLabel}
+                    {securityZone.display_value}
                   </MenuItem>
                 ))}
               </Select>
@@ -98,28 +114,28 @@ export const AddCards = ({
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel htmlFor="selected-ip-pool">IP Pool</InputLabel>
               <Select
-                value={selectedIpPoolInfo.ipPoolLabel}
+                value={selectedIpPoolInfo.display_value}
                 onChange={handleIpPoolInfoChange}
                 inputProps={{
-                  name: selectedIpPoolInfo.ipPoolLabel,
-                  value: selectedIpPoolInfo.ipPoolId,
+                  name: selectedIpPoolInfo.display_value,
+                  value: selectedIpPoolInfo.value,
                 }}
-                disabled={!selectedIpPoolInfo.ipPoolId}
+                disabled={!selectedIpPoolInfo.value}
               >
                 {availableIpPools.map((ipObj) => (
                   <MenuItem
-                    key={ipObj.ipPoolId}
-                    value={ipObj.ipPoolId}
-                    name={ipObj.ipPoolLabel}
+                    key={ipObj.value}
+                    value={ipObj.value}
+                    name={ipObj.display_value}
                   >
-                    {ipObj.ipPoolLabel}
+                    {ipObj.display_value}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
           </Grid>
           <div>
-            {!selectedIpPoolInfo.ipPoolId ? (
+            {!selectedIpPoolInfo.value ? (
               <p>There are no more available ip pool records</p>
             ) : null}
           </div>
@@ -134,12 +150,7 @@ export const AddCards = ({
             id="add-new-security-zone-button"
             size="small"
             variant="contained"
-            onClick={() =>
-              addNewNetworkSecurityZones(
-                selectedSecurityZoneInfo,
-                selectedIpPoolInfo
-              )
-            }
+            onClick={() => addNewNetworkSecurityZones(selectedIpPoolInfo)}
           >
             + Add New Security Zone
           </Button>
