@@ -99,15 +99,21 @@ function App() {
   }
 
   function deleteNetworkSecurityZoneInfo(newIpPoolRecord) {
-    let newAvailableIPPool;
+    console.log("ip pool input", newIpPoolRecord);
+    // filter ip obj from matched pool
     setMatchedZonesAndIpPools(
       matchedZonesAndIpPools.filter((record) => {
-        if (record.ipPoolId === newIpPoolRecord.ipPoolId)
-          newAvailableIPPool = newIpPoolRecord;
-        return record.ipPoolId !== newIpPoolRecord.ipPoolId;
+        return record.u_ip_pool.value !== newIpPoolRecord.value;
       })
     );
-    setAvailableIpPools([...availableIpPools, newAvailableIPPool]);
+    // add to available pool
+    setAvailableIpPools([
+      ...availableIpPools,
+      {
+        ipPoolId: newIpPoolRecord.value,
+        ipPoolLabel: newIpPoolRecord.display_value,
+      },
+    ]);
   }
 
   function removesSelectedIpPoolInfoFromAvailableSet(ipPoolInfo) {
@@ -199,7 +205,7 @@ function App() {
             {matchedZonesAndIpPools.map((record) => {
               return (
                 <ExistingCard
-                  key={record.ipPoolId}
+                  key={record.u_ip_pool.value}
                   record={record}
                   updateIpPoolDisplayValue={updateIpPoolDisplayValue}
                   deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
