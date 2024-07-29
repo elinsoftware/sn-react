@@ -213,5 +213,13 @@ export default hot(App);
 /**
   search filter
 
+  - double check if it was the right decision to independently query the security zone table
+
+  - ask if the same should be done with the ip pool table
+
+  - spinner for query load
+
+  - spinner for query on submit
+
  do you want it to persist on cancel or to refresh?
  */
