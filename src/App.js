@@ -51,13 +51,18 @@ function App() {
     const filteredIpPools = [];
     const zonesWithIpPools = [];
     const securityZoneSet = new Set([]);
+    const securityZoneList = [];
 
     allZoneSwitchRecords.forEach((record) => {
+      // security zone info only
+      if (
+        record.u_network_security_zone.value &&
+        !securityZoneSet.has(record.u_network_security_zone.display_value)
+      ) {
+        securityZoneSet.add(record.u_network_security_zone.display_value);
+        securityZoneList.push(record.u_network_security_zone);
+      }
       if (record.u_switch.value === mySwitchSysId) {
-        // security zone info only
-        if (record.u_network_security_zone.value) {
-          securityZoneSet.add(record.u_network_security_zone);
-        }
         // record has matching ip pools with network zone names
         if (record.u_network_security_zone.value && record.u_ip_pool.value) {
           zonesWithIpPools.push(record);
@@ -68,7 +73,7 @@ function App() {
       }
     });
 
-    setSecurityZones(Array.from(securityZoneSet));
+    setSecurityZones(securityZoneList);
     setMatchedZonesAndIpPools(zonesWithIpPools);
     setAvailableIpPools(filteredIpPools);
   }
@@ -119,56 +124,12 @@ function App() {
     }
   }
 
-  // async function UpdateNetworkSecuritySwitchRecord() {
-  //   try {
-  //     /*
-  //     FILTERED LIST NEEDS TO BE REINTEGRATED INTO ALL LIST
-  //     OR ACTUALLY THE FILTERING HAS TO INCLUDE THE ENTIRE RECORD INFO
-
-  //       guessing you don't want to update the whole table but patch
-  //       all existing records with changes
-
-  //       AS OF NOW changes would include:
-  //       - ip pool label changes
-  //         - this is a patch
-  //       - un matched pool being connected to a zone
-  //       - matched pool being disconnected to a zone
-  //       - matched pool being reassigned to a new zone
-
-  //       wait isn't everything updated as is?
-  //     */
-
-  //     // const tableName = "u_network_security_zone_switch";
-  //     // const sysId = ""
-  //     // const resp = await axios.put(
-  //     //   `https://dev220672.service-now.com/api/now/table/{tableName}/{sys_id}`,
-  //     //   {
-  //     //     params: {
-  //     //       sysparm_display_value: "all",
-  //     //     },
-  //     //   }
-  //     // );
-  //     closeModal();
-  //   } catch (e) {
-  //     console.log("e", e);
-  //   }
-  // }
-
   async function submitNetworkSecurityZoneInfo() {
     try {
-      /**
-      ip pool record: "20e751f747270a10b27f57f1d16d4303"
-      management record: "f010fe8b47234610b27f57f1d16d43f3"
-
-      20e751f747270a10b27f57f1d16d4303
-       */
       const tableName = "u_network_security_zone_switch";
       const test = matchedZonesAndIpPools[0];
       const sys_id = test.sys_id.value;
       const zoneVal = test.u_network_security_zone.value;
-      console.log("test", test);
-      console.log("zoneVal", zoneVal);
-      console.log("");
       const resp = await axios.patch(
         `https://dev220672.service-now.com/api/now/table/${tableName}/${sys_id}`,
         {
@@ -177,6 +138,7 @@ function App() {
       );
 
       console.log("resp", resp.data.result);
+      closeModal();
     } catch (e) {
       console.log("e", e);
     }
