@@ -14,7 +14,6 @@ function App() {
   const [matchedZonesAndIpPools, setMatchedZonesAndIpPools] = useState([]);
   const [allSecurityZones, setAllSecurityZones] = useState([]);
   const [availableIpPools, setAvailableIpPools] = useState([]);
-  const [formDisabled, setFormDisabled] = useState(true);
 
   useEffect(() => {
     getNetworkSecurityRecords();
@@ -188,8 +187,6 @@ function App() {
                 <ExistingCard
                   key={record.u_ip_pool.value}
                   record={record}
-                  formDisabled={formDisabled}
-                  setFormDisabled={setFormDisabled}
                   updateIpPoolDisplayValue={updateIpPoolDisplayValue}
                   deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
                 />

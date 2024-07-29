@@ -3,12 +3,10 @@ import { Button, Grid, TextField } from "@material-ui/core";
 
 export const ExistingCard = ({
   record,
-  formDisabled,
-  setFormDisabled,
   updateIpPoolDisplayValue,
   deleteNetworkSecurityZoneInfo,
 }) => {
-  // const [formDisabled, setFormDisabled] = useState(true);
+  const [formDisabled, setFormDisabled] = useState(true);
   const [textBoxVariant, setTextBoxVariant] = useState("filled");
   const [editButtonText, setEditButtonText] = useState("Edit");
   const [removeButtonText, setRemoveButtonText] = useState("Remove");
