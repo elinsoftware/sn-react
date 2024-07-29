@@ -16,19 +16,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/*
-  {
-    u_network_security_zone: {
-      display_value: "",
-      value: ""
-    },
-    u_ip_pool: {
-      display_value: "",
-      value: ""
-    }
-  }
-*/
-
 export const AddCards = ({
   securityZones,
   availableIpPools,
@@ -66,6 +53,7 @@ export const AddCards = ({
       securityZones.find((record) => record.value === e.target.value)
     );
   }
+
   function handleIpPoolInfoChange(e) {
     setSelectedIpPoolInfo(
       availableIpPools.find((record) => record.value === e.target.value)
@@ -150,7 +138,12 @@ export const AddCards = ({
             id="add-new-security-zone-button"
             size="small"
             variant="contained"
-            onClick={() => addNewNetworkSecurityZones(selectedIpPoolInfo)}
+            onClick={() =>
+              addNewNetworkSecurityZones(
+                selectedSecurityZoneInfo,
+                selectedIpPoolInfo
+              )
+            }
           >
             + Add New Security Zone
           </Button>

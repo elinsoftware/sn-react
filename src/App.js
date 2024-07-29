@@ -54,9 +54,8 @@ function App() {
 
     allZoneSwitchRecords.forEach((record) => {
       if (record.u_switch.value === mySwitchSysId) {
-        console.log("RECORD", record);
         // security zone info only
-        if (record.u_network_security_zone.display_value) {
+        if (record.u_network_security_zone.value) {
           securityZoneSet.add(record.u_network_security_zone);
         }
         // record has matching ip pools with network zone names
@@ -104,19 +103,19 @@ function App() {
     );
   }
 
-  function addsSelectedZoneAndIpRecordToMatchedPairs(ipPoolInfo) {
-    setMatchedZonesAndIpPools([
-      ...matchedZonesAndIpPools,
-      allZoneSwitchRecords.find(
-        (record) => record.u_ip_pool.value === ipPoolInfo.value
-      ),
-    ]);
+  function addsSelectedZoneAndIpRecordToMatchedPairs(zoneInfo, ipPoolInfo) {
+    const foundRecord = allZoneSwitchRecords.find(
+      (record) => record.u_ip_pool.value === ipPoolInfo.value
+    );
+    foundRecord.u_network_security_zone = zoneInfo;
+
+    setMatchedZonesAndIpPools([...matchedZonesAndIpPools, foundRecord]);
   }
 
-  function addNewNetworkSecurityZones(ipPool) {
+  function addNewNetworkSecurityZones(zoneInfo, ipPool) {
     if (ipPool.value) {
       removesSelectedIpPoolInfoFromAvailableSet(ipPool);
-      addsSelectedZoneAndIpRecordToMatchedPairs(ipPool);
+      addsSelectedZoneAndIpRecordToMatchedPairs(zoneInfo, ipPool);
     }
   }
 
@@ -155,9 +154,39 @@ function App() {
   //   }
   // }
 
-  function submitNetworkSecurityZoneInfo() {
-    console.log("submit and close modal");
+  async function submitNetworkSecurityZoneInfo() {
+    try {
+      /**
+      ip pool record: "20e751f747270a10b27f57f1d16d4303"
+      management record: "f010fe8b47234610b27f57f1d16d43f3"
 
+      20e751f747270a10b27f57f1d16d4303
+       */
+      const tableName = "u_network_security_zone_switch";
+      const test = matchedZonesAndIpPools[0];
+      const sys_id = test.sys_id.value;
+      const zoneVal = test.u_network_security_zone.value;
+      console.log("test", test);
+      console.log("zoneVal", zoneVal);
+      console.log("");
+      const resp = await axios.patch(
+        `https://dev220672.service-now.com/api/now/table/${tableName}/${sys_id}`,
+        {
+          u_network_security_zone: zoneVal,
+        }
+      );
+
+      console.log("resp", resp.data.result);
+    } catch (e) {
+      console.log("e", e);
+    }
+    /**
+     - all stuff on matched just goes through their own patches
+     - all stuff remaining in available pool gets their own patches too but
+     need to first reintegrate with their entire matching record from allrecords
+     */
+
+    // !!!! CHAT CPT SAYS YOU CAN SEND A BULK OF THE UPDATES IN ONE REQUEST AND PROCESS THEM SERVER SIDE ON SERVICENOW
     // UpdateNetworkSecuritySwitchRecord();
   }
 
