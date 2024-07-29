@@ -126,30 +126,18 @@ function App() {
 
   async function submitNetworkSecurityZoneInfo() {
     try {
-      const tableName = "u_network_security_zone_switch";
-      const test = matchedZonesAndIpPools[0];
-      const sys_id = test.sys_id.value;
-      const zoneVal = test.u_network_security_zone.value;
-      const resp = await axios.patch(
-        `https://dev220672.service-now.com/api/now/table/${tableName}/${sys_id}`,
+      const res = await axios.post(
+        "https://dev220672.service-now.com/api/1473863/network_security_zone_switches_update",
         {
-          u_network_security_zone: zoneVal,
+          records: matchedZonesAndIpPools,
         }
       );
-
-      console.log("resp", resp.data.result);
+      console.log("res", res.data.result);
       closeModal();
     } catch (e) {
       console.log("e", e);
+      // add spinner and/warning that there was an error
     }
-    /**
-     - all stuff on matched just goes through their own patches
-     - all stuff remaining in available pool gets their own patches too but
-     need to first reintegrate with their entire matching record from allrecords
-     */
-
-    // !!!! CHAT CPT SAYS YOU CAN SEND A BULK OF THE UPDATES IN ONE REQUEST AND PROCESS THEM SERVER SIDE ON SERVICENOW
-    // UpdateNetworkSecuritySwitchRecord();
   }
 
   function closeModal() {
@@ -196,8 +184,7 @@ function App() {
 export default hot(App);
 
 /**
- put normally for updating all fields
- patch, only the info sent
+  search filter
 
  do you want it to persist on cancel or to refresh?
  */
