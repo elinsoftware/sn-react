@@ -137,20 +137,20 @@ function App() {
   }
 
   function getSysIdsForAvailIps() {
-    const newAvailIps = [];
+    const ipsWithSysIdsList = [];
     for (let i = 0; i < allZoneSwitchRecords.length; i++) {
       for (let j = 0; j < availableIpPools.length; j++) {
         if (
           availableIpPools[j].value === allZoneSwitchRecords[i].u_ip_pool.value
         ) {
-          newAvailIps.push({
+          ipsWithSysIdsList.push({
             u_ip_pool: availableIpPools[j],
             sys_id: allZoneSwitchRecords[i].sys_id.value,
           });
         }
       }
     }
-    return newAvailIps;
+    return ipsWithSysIdsList;
   }
 
   async function submitNetworkSecurityZoneInfo() {
@@ -219,15 +219,9 @@ export default hot(App);
 
 /**
 
-  - 
-
   - double check if it was the right decision to independently query the security zone table
 
   - ask if the same should be done with the ip pool table
 
-  - spinner for query load
-
-  - spinner for query on submit
-
- do you want it to persist on cancel or to refresh?
+ - should it to persist on cancel or to refresh?
  */
