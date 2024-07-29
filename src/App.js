@@ -215,6 +215,9 @@ function App() {
 export default hot(App);
 
 /**
+ 
+  fix x onclick for autocomplete
+
   [
     {
       u_name: {

@@ -23,14 +23,15 @@ export const AddCards = ({
   addNewNetworkSecurityZones,
   allSecurityZones,
 }) => {
-  const [selectedSecurityZone, setSelectedSecurityZone] = useState({
-    u_name: {
-      display_value: "",
-    },
-    sys_id: {
-      value: "",
-    },
-  });
+  // const [selectedSecurityZone, setSelectedSecurityZone] = useState({
+  //   u_name: {
+  //     display_value: "",
+  //   },
+  //   sys_id: {
+  //     value: "",
+  //   },
+  // });
+  const [selectedSecurityZone, setSelectedSecurityZone] = useState(null);
   const [selectedIpPoolInfo, setSelectedIpPoolInfo] = useState({
     display_value: "",
     link: "",
@@ -39,22 +40,18 @@ export const AddCards = ({
   const [inputValue, setInputValue] = React.useState("");
 
   function handleOnChange(e, newVal) {
-    if (newVal) {
-      setSelectedSecurityZone({
-        u_name: {
-          display_value: newVal.u_name.display_value,
-        },
-        sys_id: {
-          value: newVal.sys_id.value,
-        },
-      });
-    }
+    setSelectedSecurityZone({
+      u_name: {
+        display_value: newVal.u_name.display_value,
+      },
+      sys_id: {
+        value: newVal.sys_id.value,
+      },
+    });
   }
 
   function handleInputChange(e, newInputVal) {
-    if (newInputVal) {
-      setInputValue(newInputVal);
-    }
+    setInputValue(newInputVal);
   }
 
   useEffect(() => {
@@ -97,7 +94,7 @@ export const AddCards = ({
             alignItems="center"
           >
             <Autocomplete
-              value={selectedSecurityZone} // This should be the full object, not just display_value
+              value={selectedSecurityZone}
               onChange={(event, newValue) => {
                 handleOnChange(event, newValue);
               }}
@@ -107,7 +104,7 @@ export const AddCards = ({
               }}
               id="controllable-states-demo"
               options={allSecurityZones}
-              getOptionLabel={(option) => option.u_name.display_value} // Specify how to display each option
+              getOptionLabel={(option) => option.u_name.display_value}
               style={{ width: 300 }}
               renderInput={(params) => (
                 <TextField
