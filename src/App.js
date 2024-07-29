@@ -14,6 +14,7 @@ function App() {
   const [matchedZonesAndIpPools, setMatchedZonesAndIpPools] = useState([]);
   const [allSecurityZones, setAllSecurityZones] = useState([]);
   const [availableIpPools, setAvailableIpPools] = useState([]);
+  const [inEditMode, setInEditMode] = useState(0);
 
   useEffect(() => {
     getNetworkSecurityRecords();
@@ -187,6 +188,8 @@ function App() {
                 <ExistingCard
                   key={record.u_ip_pool.value}
                   record={record}
+                  inEditMode={inEditMode}
+                  setInEditMode={setInEditMode}
                   updateIpPoolDisplayValue={updateIpPoolDisplayValue}
                   deleteNetworkSecurityZoneInfo={deleteNetworkSecurityZoneInfo}
                 />
@@ -199,6 +202,7 @@ function App() {
             addNewNetworkSecurityZones={addNewNetworkSecurityZones}
           />
           <Footer
+            inEditMode={inEditMode}
             submitNetworkSecurityZoneInfo={submitNetworkSecurityZoneInfo}
             closeModal={closeModal}
           />
@@ -211,8 +215,6 @@ function App() {
 export default hot(App);
 
 /**
-
-  - SHOULD NOT BE ABLE TO SUBMIT IF STILL IN EDIT MODE
 
   - dont display label on security zones if no more ip pools left
 

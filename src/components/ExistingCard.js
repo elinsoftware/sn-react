@@ -3,6 +3,8 @@ import { Button, Grid, TextField } from "@material-ui/core";
 
 export const ExistingCard = ({
   record,
+  inEditMode,
+  setInEditMode,
   updateIpPoolDisplayValue,
   deleteNetworkSecurityZoneInfo,
 }) => {
@@ -16,10 +18,12 @@ export const ExistingCard = ({
     setFormDisabled(!formDisabled);
     if (formDisabled) {
       setEditMode();
+      setInEditMode(++inEditMode);
     } else {
       // on save
       updateIpPoolDisplayValue(updatedIpRecord);
       setDisabledMode();
+      setInEditMode(--inEditMode);
     }
   }
   function setEditMode() {
@@ -88,6 +92,7 @@ export const ExistingCard = ({
             } else {
               setFormDisabled(!formDisabled);
               setDisabledMode();
+              setInEditMode(--inEditMode);
             }
           }}
           variant="outlined"

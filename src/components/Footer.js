@@ -1,7 +1,11 @@
 import React from "react";
 import { Button, Grid } from "@material-ui/core";
 
-export const Footer = ({ submitNetworkSecurityZoneInfo, closeModal }) => {
+export const Footer = ({
+  inEditMode,
+  submitNetworkSecurityZoneInfo,
+  closeModal,
+}) => {
   return (
     <>
       <Grid
@@ -28,6 +32,7 @@ export const Footer = ({ submitNetworkSecurityZoneInfo, closeModal }) => {
           <Button
             id="footer-button"
             className="card-button"
+            disabled={inEditMode !== 0}
             onClick={submitNetworkSecurityZoneInfo}
             size="small"
             variant="contained"
