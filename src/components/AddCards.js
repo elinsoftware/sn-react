@@ -17,14 +17,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const AddCards = ({
-  securityZones,
   availableIpPools,
   addNewNetworkSecurityZones,
+  allSecurityZones,
 }) => {
-  const [selectedSecurityZoneInfo, setSelectedSecurityZoneInfo] = useState({
-    display_value: "",
-    link: "",
-    value: "",
+  const [selectedSecurityZone, setSelectedSecurityZone] = useState({
+    u_name: {
+      display_value: "",
+    },
+    sys_id: {
+      value: "",
+    },
   });
   const [selectedIpPoolInfo, setSelectedIpPoolInfo] = useState({
     display_value: "",
@@ -33,8 +36,9 @@ export const AddCards = ({
   });
 
   useEffect(() => {
-    if (securityZones.length) {
-      setSelectedSecurityZoneInfo(securityZones[0]);
+    if (allSecurityZones.length) {
+      setSelectedSecurityZone(allSecurityZones[0]);
+      console.log("jeifjeif", selectedSecurityZone);
     }
     if (availableIpPools.length) {
       setSelectedIpPoolInfo(availableIpPools[0]);
@@ -45,12 +49,12 @@ export const AddCards = ({
         value: "",
       });
     }
-  }, [securityZones, availableIpPools]);
+  }, [availableIpPools, allSecurityZones]);
   const classes = useStyles();
 
   function handleSecurityZoneInfoChange(e) {
-    setSelectedSecurityZoneInfo(
-      securityZones.find((record) => record.value === e.target.value)
+    setSelectedSecurityZone(
+      allSecurityZones.find((record) => record.sys_id.value === e.target.value)
     );
   }
 
@@ -79,21 +83,21 @@ export const AddCards = ({
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel htmlFor="selected-name">Zone Name</InputLabel>
               <Select
-                value={selectedSecurityZoneInfo.display_value}
+                value={selectedSecurityZone.u_name.display_value}
                 onChange={handleSecurityZoneInfoChange}
                 inputProps={{
-                  name: selectedSecurityZoneInfo.display_value,
-                  value: selectedSecurityZoneInfo.value,
+                  name: selectedSecurityZone.u_name.display_value,
+                  value: selectedSecurityZone.sys_id.value,
                 }}
                 disabled={!selectedIpPoolInfo.value}
               >
-                {securityZones.map((securityZone) => (
+                {allSecurityZones.map((securityZone) => (
                   <MenuItem
-                    key={securityZone.value}
-                    value={securityZone.value}
-                    name={securityZone.display_value}
+                    key={securityZone.sys_id.value}
+                    value={securityZone.sys_id.value}
+                    name={securityZone.u_name.display_value}
                   >
-                    {securityZone.display_value}
+                    {securityZone.u_name.display_value}
                   </MenuItem>
                 ))}
               </Select>
@@ -140,7 +144,7 @@ export const AddCards = ({
             variant="contained"
             onClick={() =>
               addNewNetworkSecurityZones(
-                selectedSecurityZoneInfo,
+                selectedSecurityZone,
                 selectedIpPoolInfo
               )
             }

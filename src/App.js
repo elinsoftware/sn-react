@@ -12,10 +12,11 @@ function App() {
   const [mySwitchSysId, setMySwitchSysId] = useState("");
   const [allZoneSwitchRecords, setAllZoneSwitchRecords] = useState([]);
   const [matchedZonesAndIpPools, setMatchedZonesAndIpPools] = useState([]);
-  const [securityZones, setSecurityZones] = useState([]);
+  const [allSecurityZones, setAllSecurityZones] = useState([]);
   const [availableIpPools, setAvailableIpPools] = useState([]);
 
   useEffect(() => {
+    getNetworkSecurityRecords();
     getNetworkSecurityZoneSwitchRecords();
     getSelfSwitchId();
   }, []);
@@ -23,6 +24,24 @@ function App() {
   useEffect(() => {
     if (allZoneSwitchRecords.length) setDropDownLists();
   }, [allZoneSwitchRecords]);
+
+  async function getNetworkSecurityRecords() {
+    try {
+      const res = await axios.get(
+        "https://dev220672.service-now.com/api/now/table/u_cmdb_ci_network_security_zone",
+        {
+          params: {
+            sysparm_display_value: "all",
+          },
+        }
+      );
+
+      console.log("network security zone records", res.data.result);
+      setAllSecurityZones(res.data.result);
+    } catch (e) {
+      console.log("e", e);
+    }
+  }
 
   async function getNetworkSecurityZoneSwitchRecords() {
     try {
@@ -50,18 +69,8 @@ function App() {
   function setDropDownLists() {
     const filteredIpPools = [];
     const zonesWithIpPools = [];
-    const securityZoneSet = new Set([]);
-    const securityZoneList = [];
 
     allZoneSwitchRecords.forEach((record) => {
-      // security zone info only
-      if (
-        record.u_network_security_zone.value &&
-        !securityZoneSet.has(record.u_network_security_zone.display_value)
-      ) {
-        securityZoneSet.add(record.u_network_security_zone.display_value);
-        securityZoneList.push(record.u_network_security_zone);
-      }
       if (record.u_switch.value === mySwitchSysId) {
         // record has matching ip pools with network zone names
         if (record.u_network_security_zone.value && record.u_ip_pool.value) {
@@ -73,7 +82,6 @@ function App() {
       }
     });
 
-    setSecurityZones(securityZoneList);
     setMatchedZonesAndIpPools(zonesWithIpPools);
     setAvailableIpPools(filteredIpPools);
   }
@@ -112,8 +120,11 @@ function App() {
     const foundRecord = allZoneSwitchRecords.find(
       (record) => record.u_ip_pool.value === ipPoolInfo.value
     );
-    foundRecord.u_network_security_zone = zoneInfo;
 
+    foundRecord.u_network_security_zone = {
+      display_value: zoneInfo.u_name.display_value,
+      value: zoneInfo.sys_id.value,
+    };
     setMatchedZonesAndIpPools([...matchedZonesAndIpPools, foundRecord]);
   }
 
@@ -183,7 +194,7 @@ function App() {
             })}
           </ul>
           <AddCards
-            securityZones={securityZones}
+            allSecurityZones={allSecurityZones}
             availableIpPools={availableIpPools}
             addNewNetworkSecurityZones={addNewNetworkSecurityZones}
           />
@@ -201,8 +212,6 @@ export default hot(App);
 
 /**
   search filter
-
-  IF YOU DELETE OR DECOUPLE, YOU NEED TO UPDATE THAT TOO!
 
  do you want it to persist on cancel or to refresh?
  */
