@@ -1,45 +1,32 @@
 import React, { useEffect, useState } from "react";
-import {
-  FormControl,
-  Button,
-  Grid,
-  MenuItem,
-  InputLabel,
-  Select,
-  TextField,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Button, Grid, TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-}));
 
 export const AddCards = ({
   availableIpPools,
   addNewNetworkSecurityZones,
   allSecurityZones,
 }) => {
-  // const [selectedSecurityZone, setSelectedSecurityZone] = useState({
-  //   u_name: {
-  //     display_value: "",
-  //   },
-  //   sys_id: {
-  //     value: "",
-  //   },
-  // });
   const [selectedSecurityZone, setSelectedSecurityZone] = useState(null);
   const [selectedIpPoolInfo, setSelectedIpPoolInfo] = useState({
     display_value: "",
     link: "",
     value: "",
   });
-  const [inputValue, setInputValue] = React.useState("");
+  const [zoneInputValue, setZoneInputValue] = useState("");
+  const [ipInputValue, setIpInputValue] = useState("");
 
-  function handleOnChange(e, newVal) {
+  function handleIpOnChange(e, newVal) {
+    setSelectedIpPoolInfo(
+      availableIpPools.find((record) => record.value === newVal.value)
+    );
+  }
+
+  function handleIpInputChange(e, newVal) {
+    setIpInputValue(newVal);
+  }
+
+  function handleZoneOnChange(e, newVal) {
     setSelectedSecurityZone({
       u_name: {
         display_value: newVal.u_name.display_value,
@@ -50,8 +37,8 @@ export const AddCards = ({
     });
   }
 
-  function handleInputChange(e, newInputVal) {
-    setInputValue(newInputVal);
+  function handleZoneInputChange(e, newInputVal) {
+    setZoneInputValue(newInputVal);
   }
 
   useEffect(() => {
@@ -68,13 +55,7 @@ export const AddCards = ({
       });
     }
   }, [availableIpPools, allSecurityZones]);
-  const classes = useStyles();
 
-  function handleIpPoolInfoChange(e) {
-    setSelectedIpPoolInfo(
-      availableIpPools.find((record) => record.value === e.target.value)
-    );
-  }
   return (
     <>
       <Grid
@@ -96,11 +77,11 @@ export const AddCards = ({
             <Autocomplete
               value={selectedSecurityZone}
               onChange={(event, newValue) => {
-                handleOnChange(event, newValue);
+                handleZoneOnChange(event, newValue);
               }}
-              inputValue={inputValue}
+              inputValue={zoneInputValue}
               onInputChange={(event, newInputValue) => {
-                handleInputChange(event, newInputValue);
+                handleZoneInputChange(event, newInputValue);
               }}
               id="controllable-states-demo"
               options={allSecurityZones}
@@ -116,28 +97,28 @@ export const AddCards = ({
               )}
             />
 
-            <FormControl variant="outlined" className={classes.formControl}>
-              <InputLabel htmlFor="selected-ip-pool">IP Pool</InputLabel>
-              <Select
-                value={selectedIpPoolInfo.display_value}
-                onChange={handleIpPoolInfoChange}
-                inputProps={{
-                  name: selectedIpPoolInfo.display_value,
-                  value: selectedIpPoolInfo.value,
-                }}
-                disabled={!selectedIpPoolInfo.value}
-              >
-                {availableIpPools.map((ipObj) => (
-                  <MenuItem
-                    key={ipObj.value}
-                    value={ipObj.value}
-                    name={ipObj.display_value}
-                  >
-                    {ipObj.display_value}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Autocomplete
+              value={selectedIpPoolInfo}
+              onChange={(event, newValue) => {
+                handleIpOnChange(event, newValue);
+              }}
+              inputValue={ipInputValue}
+              onInputChange={(event, newInputValue) => {
+                handleIpInputChange(event, newInputValue);
+              }}
+              id="controllable-states-demo"
+              options={availableIpPools}
+              getOptionLabel={(record) => record.display_value}
+              style={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  InputProps={{ ...params.InputProps }}
+                  label="Controllable"
+                  variant="outlined"
+                />
+              )}
+            />
           </Grid>
         </div>
         <Grid
