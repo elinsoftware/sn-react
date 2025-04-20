@@ -1,3 +1,6 @@
+NOTE: This is an old legacy boilerplate. Use the new one for your ServiceNow projects: https://github.com/elinsoftware/servicenow-react-app
+--
+
 # React boilerplate for ServiceNow applications
 
 This is a React boilerplate that is specifically designed to build ServiceNow-ready web applications.
